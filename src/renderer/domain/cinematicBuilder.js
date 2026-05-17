@@ -36,8 +36,9 @@ function BuildKeyframes(steps) {
  * Set camera position and viewmatrix
  */
 function createSetView(Store) {
-  const { camera: Camera } = Store.getters.core;
+  const Camera = Store.getters.core && Store.getters.core.camera;
   return cinematicValues => {
+    if (!Camera) return;
     const yawToAngle = Math.atan2(cinematicValues.yawSin, cinematicValues.yawCos);
     cinematicValues.yaw = yawToAngle;
     Camera.SetCameraView(cinematicValues);
@@ -48,7 +49,7 @@ function createSetView(Store) {
  * GSAP Options for TweenLite
  */
 function createGetCinematicOptions(ApplyEnvironment, Store) {
-  const { environment: Environment } = Store.getters.core;
+  const Environment = Store.getters.core && Store.getters.core.environment;
   const { commit: CommitState } = Store;
   const SetView = createSetView(Store);
   return (keyframes, cinematicValues, easing, steps, speed, store, shouldLoop, cinematic) => {
@@ -70,7 +71,7 @@ function createGetCinematicOptions(ApplyEnvironment, Store) {
       },
       onUpdate: () => {
         SetView(cinematicValues);
-        if ('timeOfDay' in cinematicValues) Environment.setNormalizedTimeOfDay(cinematicValues.timeOfDay);
+        if (Environment && 'timeOfDay' in cinematicValues) Environment.setNormalizedTimeOfDay(cinematicValues.timeOfDay);
       },
     };
   };
@@ -93,6 +94,7 @@ function GetCinematicStruct() {
 function createCinematicBuilder(ApplyEnvironment) {
   return (steps, speed, Store, shouldLoop, easing = Power0.easeNone) => {
     const { commit } = Store;
+    if (!Store.getters.core || !Store.getters.core.camera) return commit('setMode', 'SPECTATE');
     const SetView = createSetView(Store);
     if (steps.length <= 1) return commit('setMode', 'SPECTATE');
     const firstStep = steps[0];

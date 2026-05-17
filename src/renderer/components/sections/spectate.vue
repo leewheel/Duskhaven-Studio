@@ -152,6 +152,37 @@
 const { getKeyLabel } = require('../../domain/keybinds');
 
 let positionInterval;
+let coreLaunchPending = false;
+
+function getCamera(store) {
+  return store.getters.core && store.getters.core.camera;
+}
+
+function ensureCoreReady(store, cb) {
+  if (getCamera(store)) {
+    cb();
+    return;
+  }
+  if (coreLaunchPending) return;
+  if (typeof window.launch !== 'function') {
+    console.warn('[Duskhaven spectate] Core bridge is not available');
+    return;
+  }
+
+  coreLaunchPending = true;
+  window.launch((error, AppManager) => {
+    coreLaunchPending = false;
+    if (error) {
+      console.warn('[Duskhaven spectate] Core launch failed', error);
+      store.commit('setMode', 'DISABLED');
+      return;
+    }
+
+    store.commit('setGameInfo', AppManager.Game);
+    store.commit('setCore', AppManager);
+    cb();
+  });
+}
 
 export default {
   name: "spectate",
@@ -161,8 +192,9 @@ export default {
   },
   mounted() {
     const store = this.$store;
-    if (store.getters.core && this.$refs) {
-      const { position, yaw, pitch } = store.getters.core.camera.getView();
+    const camera = getCamera(store);
+    if (camera && this.$refs) {
+      const { position, yaw, pitch } = camera.getView();
       const { x, y, z } = position;
       const refs = this.$refs;
       refs.pos_x.value = x;
@@ -180,7 +212,9 @@ export default {
         console.log('# nothing to do');
          return;
       }
-      const { position, yaw, pitch } = store.getters.core.camera.getView();
+      const camera = getCamera(store);
+      if (!camera || !this.$refs) return;
+      const { position, yaw, pitch } = camera.getView();
       const { x, y, z } = position;
       store.commit("setCurrPosition", { x, y, z });
       const refs = this.$refs;
@@ -199,7 +233,9 @@ export default {
   methods: {
     setPosition(element) {
       if (this.$store.state.camera.mode === 'DISABLED') return;
-      const { x: currX, y: currY, z: currZ } = this.$store.getters.core.camera.getView().position;
+      const camera = getCamera(this.$store);
+      if (!camera) return;
+      const { x: currX, y: currY, z: currZ } = camera.getView().position;
       const store = this.$store;
       const refs = this.$refs;
       // TODO: Investigate this.
@@ -217,7 +253,10 @@ export default {
     toggleSpectate(element) {
       const domElement = element.currentTarget;
       const isChecked = domElement.checked;
-      if (isChecked) return this.$store.commit("setMode", "SPECTATE");
+      if (isChecked) {
+        ensureCoreReady(this.$store, () => this.$store.commit("setMode", "SPECTATE"));
+        return;
+      }
       return this.$store.commit("setMode", "DISABLED");
     },
     toggleCollision(element) {

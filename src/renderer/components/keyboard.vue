@@ -18,6 +18,8 @@
   let debugTime = 0;
   let previousKeyState = {};
   let actionKeyState = {};
+  let coreLaunchPending = false;
+  let pendingCoreAction = null;
   const keybindActions = ['toggleSpectate', 'addWaypoint', 'playCinematic', 'clearWaypoints'];
 
   function didPressAction(store, action) {
@@ -34,9 +36,34 @@
     });
   }
 
-  function isGameActive() {
-    const activeWindow = ActiveWindow.find();
-    return activeWindow && activeWindow.includes('World of Warcraft');
+  function ensureCoreReady(store, action) {
+    if (store.getters.core && store.getters.core.camera) return true;
+    if (action) pendingCoreAction = action;
+    if (coreLaunchPending) return false;
+    if (typeof window.launch !== 'function') {
+      console.warn('[Duskhaven keyboard] Core bridge is not available');
+      return false;
+    }
+
+    coreLaunchPending = true;
+    window.launch((error, AppManager) => {
+      coreLaunchPending = false;
+      if (error) {
+        console.warn('[Duskhaven keyboard] Core launch failed', error);
+        if (store && store.commit) store.commit('setMode', 'DISABLED');
+        return;
+      }
+
+      store.commit('setGameInfo', AppManager.Game);
+      store.commit('setCore', AppManager);
+      if (pendingCoreAction) {
+        const readyAction = pendingCoreAction;
+        pendingCoreAction = null;
+        readyAction();
+      }
+    });
+
+    return false;
   }
 
   function isDebugEnabled() {
@@ -93,6 +120,25 @@
     return getKeyCode(key) || getKeyCode(defaultKeybinds[action]);
   }
 
+  function runKeyboardAction(store, action) {
+    if (action === 'toggleSpectate') {
+      if (cinematic && cinematic.tween) cinematic.stop();
+      store.dispatch('toggleSpectate');
+    }
+
+    if (action === 'addWaypoint') store.dispatch('addWaypoint');
+
+    if (action === 'playCinematic') {
+      if (store.getters.mode === 'SPECTATE') store.dispatch('playCinematic');
+      if (store.getters.mode === 'PLAYING' && (cinematic && cinematic.tween)) {
+        cinematic.stop();
+        store.commit('setMode', 'SPECTATE');
+      }
+    }
+
+    if (action === 'clearWaypoints') store.dispatch('cleanWaypoints');
+  }
+
   let cinematic;
   export default {
     name: 'keyboard',
@@ -123,23 +169,11 @@
 
       setInterval(() => {
         logKeyboardDebug();
-        if (!isGameActive()) {
-          syncActionKeyState(store);
-          return;
-        }
-        if (didPressAction(store, 'toggleSpectate')) {
-          if (cinematic && cinematic.tween) cinematic.stop();
-          store.dispatch('toggleSpectate');
-        }
-        if (didPressAction(store, 'addWaypoint')) store.dispatch('addWaypoint');
-        if (didPressAction(store, 'playCinematic')) {
-          if (store.getters.mode === 'SPECTATE') store.dispatch('playCinematic');
-          if (store.getters.mode === 'PLAYING' && (cinematic && cinematic.tween)) {
-            cinematic.stop();
-            store.commit('setMode', 'SPECTATE');
-          }
-        }
-        if (didPressAction(store, 'clearWaypoints')) store.dispatch('cleanWaypoints');
+        const pressedAction = keybindActions.find(action => didPressAction(store, action));
+        if (!pressedAction) return;
+        const action = () => runKeyboardAction(store, pressedAction);
+        if (!ensureCoreReady(store, action)) return;
+        action();
       }, 20);
     },
     destroyed() {

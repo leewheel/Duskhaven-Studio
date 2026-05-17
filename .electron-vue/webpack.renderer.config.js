@@ -91,6 +91,11 @@ let rendererConfig = {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: path.resolve(__dirname, '../src/index.ejs'),
+      chunks: ['core', 'renderer'],
+      chunksSortMode: function (left, right) {
+        const order = ['core', 'renderer']
+        return order.indexOf(left.names[0]) - order.indexOf(right.names[0])
+      },
       minify: {
         collapseWhitespace: true,
         removeAttributeQuotes: true,
@@ -137,7 +142,7 @@ if (process.env.NODE_ENV === 'production') {
 
   rendererConfig.plugins.push(
     new BabiliWebpackPlugin({
-      removeConsole: true,
+      removeConsole: false,
       removeDebugger: true
     }),
     new CopyWebpackPlugin([

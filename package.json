@@ -23,6 +23,8 @@
     "productName": "Duskhaven Studio",
     "appId": "wow.duskhaven.studio",
     "asarUnpack": [
+      "node_modules/@koromix/koffi-win32-x64/**/*",
+      "node_modules/koffi/**/*",
       "node_modules/ffmpeg-static/**/*"
     ],
     "directories": {
@@ -33,11 +35,13 @@
       "node_modules/ffmpeg-static/**/*"
     ],
     "win": {
-      "icon": "static/resources/duskhavenstudio.ico"
+      "icon": "static/resources/duskhavenstudio.ico",
+      "requestedExecutionLevel": "requireAdministrator"
     },
     "nsis": {
-      "runAfterFinish": false,
-      "oneClick": true,
+      "runAfterFinish": true,
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true
     }

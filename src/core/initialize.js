@@ -15,7 +15,7 @@ function asAddress(value) {
 }
 
 function asNumber(value) {
-  return Object.prototype.toString.call(value) === '[object BigInt]' ? Number(value) : value;
+  return Object.prototype.toString.call(value) === '[object BigInt]' ? parseInt(value.toString(), 10) : value;
 }
 
 function createPattern(pattern) {

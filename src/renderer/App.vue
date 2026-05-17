@@ -12,12 +12,22 @@
     name: 'Duskhaven-Studio',
     mounted() {
       const store = this.$store;
-      launch((error, AppManager) => {
+      console.log('[Duskhaven app] mounted; core bridge is', typeof window.launch);
+      if (typeof window.launch !== 'function') {
+        const message = 'Core bridge failed to load. Please reinstall Duskhaven Studio or run the unpacked build from the release folder.';
+        console.warn('[Duskhaven app]', message);
+        if (this.$route.path !== '/error') this.$router.push({ name: 'error', params: { error: message }});
+        return;
+      }
+
+      window.launch((error, AppManager) => {
         if (error) {
           console.log('# Error', error)
+          console.warn('[Duskhaven app] startup core launch failed', error);
           if (this.$route.path !== '/error') this.$router.push({ name: 'error', params: { error: error.message }});
           return;
         }
+        console.log('[Duskhaven app] startup core launch complete');
         store.commit('setGameInfo', AppManager.Game);
         store.commit('setCore', AppManager);
   	    console.timeEnd('startup');

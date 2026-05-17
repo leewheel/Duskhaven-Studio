@@ -1,17 +1,23 @@
 import initialize from './initialize';
 
 function launchCore(cb) {
+  console.log('[Duskhaven core] launch requested');
   const createProgram = require('./manager.js');
   const patterns = require('./logic/patterns.js');
   const init = (err, process, module, memory, window) => {
-    if (err) return cb(err);
+    if (err) {
+      console.warn('[Duskhaven core] launch failed', err);
+      return cb(err);
+    }
     const program = createProgram(process, module, memory, window, patterns);
+    console.log('[Duskhaven core] launch complete');
     return cb(err, program);
   };
   return initialize(init);
 }
 
 window.launch = launchCore;
+console.log('[Duskhaven core] bridge ready', typeof window.launch);
 
 // 1.12
 // WoW.exe+31C13A - D9 59 FC              - fstp dword ptr [ecx-04]

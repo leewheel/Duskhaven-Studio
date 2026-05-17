@@ -50,12 +50,14 @@ export default {
     },
     setPosition(state, position) {
       state.position = position;
-      const core = this.getters.core.camera;
+      const core = this.getters.core && this.getters.core.camera;
+      if (!core) return;
       core.setPosition(position);
     },
     setSpeed(state, speed) {
-      const core = this.getters.core.camera;
+      const core = this.getters.core && this.getters.core.camera;
       state.speed = speed;
+      if (!core) return;
       const isSpectateEnabled = state.mode !== 'DISABLED';
       core.setSpeed(Number(speed), isSpectateEnabled);
     },
@@ -88,13 +90,18 @@ export default {
     },
     setCollision(state, enabled) {
       state.collision = enabled;
-      const { camera: Camera } = this.getters.core;
+      const { camera: Camera } = this.getters.core || {};
+      if (!Camera) return;
       Camera.SetCollision(state.collision);
     },
     setMode(state, mode) {
       const previousMode = state.mode;
+      const { camera: Camera } = this.getters.core || {};
+      if (!Camera) {
+        console.warn('[Duskhaven camera] Core camera is not ready yet.');
+        return;
+      }
       state.mode = mode;
-      const { camera: Camera } = this.getters.core;
       if (mode === 'DISABLED') return Camera.disableSpectator();
       if (mode === 'SPECTATE') return Camera.enableSpectator();
       if (mode === 'PLAYING' && previousMode === 'SPECTATE') {
@@ -110,7 +117,11 @@ export default {
     },
     enableSpectate() {},
     addWaypoint(context) {
-      const core = this.getters.core.camera;
+      const core = this.getters.core && this.getters.core.camera;
+      if (!core) {
+        console.warn('[Duskhaven camera] Cannot add waypoint because core camera is not ready.');
+        return;
+      }
       const camViewMatrix = core.getView();
       const store = this;
       addEnvironment(store, camViewMatrix);
