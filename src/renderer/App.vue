@@ -55,9 +55,13 @@
     const spectateSpeed = get(settings, 'camera.spectateSpeed', undefined);
     const timeOfDayEnabled = get(settings, 'environment.timeOfDayEnabled', undefined);
     const alwaysOnTop = get(settings, 'settings.alwaysOnTop', undefined);
+    const keybinds = get(settings, 'settings.keybinds', undefined);
     if (cameraCollision !== undefined) store.commit("setCollision", cameraCollision);
     if (spectateSpeed !== undefined) store.commit("setSpeed", spectateSpeed);
     if (timeOfDayEnabled !== undefined) store.commit("setTimeOfDayStatus", timeOfDayEnabled);
+    if (keybinds !== undefined) {
+      Object.keys(keybinds).forEach((action) => store.commit("setKeybind", { action, key: keybinds[action] }));
+    }
     if (alwaysOnTop !== undefined) {
       store.commit("setAlwaysOnTop", alwaysOnTop);
       win.setAlwaysOnTop(alwaysOnTop);

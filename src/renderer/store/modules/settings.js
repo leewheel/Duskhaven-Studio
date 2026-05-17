@@ -4,6 +4,12 @@ const saveSettings = require('./settings/saveSettings');
 export default {
   state: {
     alwaysOnTop: false,
+    keybinds: {
+      addWaypoint: 'F4',
+      clearWaypoints: 'F6',
+      playCinematic: 'F5',
+      toggleSpectate: 'F3',
+    },
     windowTransparency: 100,
     build: 0,
     client: 0,
@@ -21,6 +27,7 @@ export default {
         },
         settings: {
           alwaysOnTop: state.alwaysOnTop,
+          keybinds: state.keybinds,
         },
       };
     },
@@ -33,6 +40,11 @@ export default {
     },
     setAlwaysOnTop(state, value) {
       state.alwaysOnTop = value;
+    },
+    setKeybind(state, { action, key }) {
+      state.keybinds = Object.assign({}, state.keybinds, {
+        [action]: key,
+      });
     },
     setWindowTransparency(state, value) {
       state.windowTransparency = value;

@@ -5,28 +5,33 @@
   const ActiveWindow = require('../../core/native/activeWindow');
   const ApplyEnvironment = require('../domain/applyEnvironment');
   const CreateCinematicBuilder = require('../domain/cinematicBuilder');
+  const { getKeyCode, KEY_CODES } = require('../domain/keybinds');
   const CinematicBuilder = CreateCinematicBuilder.default(ApplyEnvironment.default);
   const gui = require('../../core/native/globalUserInput');
   gui.init();
-  let currTime = new Date();
+  const defaultKeybinds = {
+    addWaypoint: 'F4',
+    clearWaypoints: 'F6',
+    playCinematic: 'F5',
+    toggleSpectate: 'F3',
+  };
   let debugTime = 0;
   let previousKeyState = {};
-  const keyMap = {
-    F3: 0x72,
-    F4: 0x73,
-    F5: 0x74,
-    F6: 0x75,
-  };
-  const shouldNotify = () => {
-    const now = new Date().getTime();
-    if (now > currTime.getTime() + 300) {
-      currTime = new Date();
-      return true;
-    }
-  };
+  let actionKeyState = {};
+  const keybindActions = ['toggleSpectate', 'addWaypoint', 'playCinematic', 'clearWaypoints'];
 
-  function pressingKey(key) {
-    return gui.keyboard.isDown(key) && shouldNotify();
+  function didPressAction(store, action) {
+    const keyCode = getActionKeyCode(store, action);
+    const isDown = gui.keyboard.isDown(keyCode);
+    const wasDown = Boolean(actionKeyState[action]);
+    actionKeyState[action] = isDown;
+    return isDown && !wasDown;
+  }
+
+  function syncActionKeyState(store) {
+    keybindActions.forEach((action) => {
+      actionKeyState[action] = gui.keyboard.isDown(getActionKeyCode(store, action));
+    });
   }
 
   function isGameActive() {
@@ -47,8 +52,8 @@
     const now = Date.now();
     const activeWindow = ActiveWindow.find();
     const gameActive = activeWindow && activeWindow.includes('World of Warcraft');
-    const keyState = Object.keys(keyMap).reduce((state, keyName) => {
-      state[keyName] = gui.keyboard.isDown(keyMap[keyName]);
+    const keyState = Object.keys(KEY_CODES).reduce((state, keyName) => {
+      state[keyName] = gui.keyboard.isDown(KEY_CODES[keyName]);
       return state;
     }, {});
 
@@ -83,6 +88,11 @@
     setTimeout(() => store.dispatch('playCinematic'), 50);
   }
 
+  function getActionKeyCode(store, action) {
+    const key = store.state.settings.keybinds[action];
+    return getKeyCode(key) || getKeyCode(defaultKeybinds[action]);
+  }
+
   let cinematic;
   export default {
     name: 'keyboard',
@@ -113,20 +123,23 @@
 
       setInterval(() => {
         logKeyboardDebug();
-        if (!isGameActive()) return;
-        if (pressingKey(0x72)) { // F3
+        if (!isGameActive()) {
+          syncActionKeyState(store);
+          return;
+        }
+        if (didPressAction(store, 'toggleSpectate')) {
           if (cinematic && cinematic.tween) cinematic.stop();
           store.dispatch('toggleSpectate');
         }
-        if (pressingKey(0x73)) store.dispatch('addWaypoint'); // F4
-        if (pressingKey(0x74)) { // F5
+        if (didPressAction(store, 'addWaypoint')) store.dispatch('addWaypoint');
+        if (didPressAction(store, 'playCinematic')) {
           if (store.getters.mode === 'SPECTATE') store.dispatch('playCinematic');
           if (store.getters.mode === 'PLAYING' && (cinematic && cinematic.tween)) {
             cinematic.stop();
             store.commit('setMode', 'SPECTATE');
           }
         }
-        if (pressingKey(0x75)) store.dispatch('cleanWaypoints'); // F6
+        if (didPressAction(store, 'clearWaypoints')) store.dispatch('cleanWaypoints');
       }, 20);
     },
     destroyed() {
@@ -140,6 +153,9 @@
     watch: {
       mode: {
         handler (newMode, previousMode) {
+          if (newMode === 'SPECTATE' && previousMode === 'DISABLED' && this.$route.path !== '/spectate/cinematicBuilder') {
+            this.$router.push({ path: '/spectate/cinematicBuilder' });
+          }
           if (shouldPlayCinematic(newMode, previousMode)) {
             this.$store.dispatch('playCinematic');
             const steps = this.$store.getters.steps;

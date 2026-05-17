@@ -12,19 +12,19 @@
                   <div class="tile is-parent">
                       <article class="tile is-child box">
                           <p class="title">Toggle Spectate Mode</p>
-                          <p class="subtitle">Press F3 and you'll be able to move the camera around.</p>
+                          <p class="subtitle">Press {{ keybindLabels.toggleSpectate }} and you'll be able to move the camera around.</p>
                       </article>
                   </div>
                   <div class="tile is-parent">
                       <article class="tile is-child box">
                           <p class="title">Add Waypoints</p>
-                          <p class="subtitle">Press F4 to add the current camera position to the cinematic builder</p>
+                          <p class="subtitle">Press {{ keybindLabels.addWaypoint }} to add the current camera position to the cinematic builder</p>
                       </article>
                   </div>
                   <div class="tile is-parent">
                       <article class="tile is-child box">
                           <p class="title">Play it!</p>
-                          <p class="subtitle">Press F5 to play the whole cinematic.</p>
+                          <p class="subtitle">Press {{ keybindLabels.playCinematic }} to play the whole cinematic.</p>
                       </article>
                   </div>
               </div>
@@ -41,7 +41,6 @@
                       type="number" 
                       ref="cinematic_speed"
                       v-model="cinematicSpeed"
-                      v-on:input="setCinematicSpeed($event)"
                       placeholder="Value in seconds, defaults to 10.">
                   </div>
                 </div>
@@ -152,6 +151,7 @@
 <script>
 
   const { shell } = require('electron');
+  const { getKeyLabel } = require('../../domain/keybinds');
 
   function reportWindowSize() {
     if (this.$refs.table_cinematic) {
@@ -165,6 +165,26 @@
     components: {
       TimeSelector: require('./inputs/timeSelector.vue'),
       spectateMenu: require('./spectateMenu'),
+    },
+    computed: {
+      cinematicSpeed: {
+        get() {
+          return this.$store.state.camera.cinematicSpeed;
+        },
+        set(value) {
+          this.$store.commit('setCinematicSpeed', value);
+        },
+      },
+      keybinds() {
+        return this.$store.state.settings.keybinds;
+      },
+      keybindLabels() {
+        return {
+          addWaypoint: getKeyLabel(this.keybinds.addWaypoint),
+          playCinematic: getKeyLabel(this.keybinds.playCinematic),
+          toggleSpectate: getKeyLabel(this.keybinds.toggleSpectate),
+        };
+      },
     },
     methods: {
       open(url) {
@@ -200,7 +220,6 @@
     data() {
       return { 
         cinematicSteps: this.$store.state.camera.cinematicSteps,
-        cinematicSpeed: this.$store.state.camera.cinematicSpeed,
         loopCinematic: this.$store.state.camera.loopCinematic,
         clientVersion: this.$store.state.settings.client,
         easingType: this.$store.state.camera.easingType,

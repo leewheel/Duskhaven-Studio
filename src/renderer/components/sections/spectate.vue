@@ -106,7 +106,7 @@
             v-on:click="toggleSpectate"
           />
           <label for="renderer_details">
-            <span></span>Toggle Spectate Mode (F3)
+            <span></span>Toggle Spectate Mode ({{ keybindLabels.toggleSpectate }})
           </label>
           <div class="checkbox_indicator no-drop"></div>
         </label>
@@ -149,6 +149,7 @@
 </template>
 
 <script>
+const { getKeyLabel } = require('../../domain/keybinds');
 
 let positionInterval;
 
@@ -230,6 +231,13 @@ export default {
       if (isNaN(speed)) return;
       this.$store.commit("setSpeed", speed);
     }
+  },
+  computed: {
+    keybindLabels() {
+      return {
+        toggleSpectate: getKeyLabel(this.$store.state.settings.keybinds.toggleSpectate),
+      };
+    },
   },
   data() {
     return {

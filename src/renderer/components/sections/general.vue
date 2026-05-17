@@ -29,7 +29,7 @@
       <div class="tool-card">
         <span class="icon-wrap"><i data-feather="sliders"></i></span>
         <h2>Studio Settings</h2>
-        <p>Keep the window behavior, transparency, and advanced controls close to the work.</p>
+        <p>Adjust the available studio preferences and keybinds in one place.</p>
       </div>
     </div>
   </section>

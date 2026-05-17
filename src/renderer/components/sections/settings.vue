@@ -4,98 +4,170 @@
       <settingsMenu></settingsMenu>
     </div>
     <div class="container">
-      <div class="columns">
-        <div class="column is-one-third">
-          <div class="field">
-            <label class="label">Window transparency</label>
-            <div class="control">
-              <input
-                class="input range transparency"
-                v-model="windowTransparency"
-                min="50"
-                max="100"
-                step="1"
-                value="100"
-                v-on:change="setWindowTransparency($event)"
-                v-on:input="setWindowTransparency($event)"
-                type="range"
-              />
-            </div>
-          </div>
-        </div>
-        <div class="column">
+      <div class="settings-grid">
+        <section class="settings-panel">
+          <label class="label">Window</label>
           <label class="checkbox checkbox-custom">
             <input
-             type="checkbox"
+              type="checkbox"
               id="always_on_top"
               name="always_on_top"
               v-model="alwaysOnTop"
               v-on:change="setAlwaysOnTop($event)"
             />
-            <label for="renderer_details">
+            <label for="always_on_top">
               <span></span>Set window always on top
             </label>
             <div class="checkbox_indicator no-drop"></div>
           </label>
-          <label>
-            <button class="button" v-on:click="openDevTools" >Open dev tools</button>
-          </label>
-        </div>
+          <button class="button devtools-button" v-on:click="openDevTools">Open dev tools</button>
+        </section>
+
+        <section class="settings-panel">
+          <label class="label">Keybinds</label>
+          <div
+            class="field keybind-row"
+            v-for="binding in keybindOptions"
+            v-bind:key="binding.action"
+          >
+            <label class="keybind-label">{{ binding.label }}</label>
+            <div class="control">
+              <button
+                class="button keybind-button"
+                v-bind:class="{ 'is-listening': listeningAction === binding.action }"
+                v-on:click="startKeybindCapture(binding.action)"
+              >
+                {{ listeningAction === binding.action ? 'Press a key...' : getKeyLabel(keybinds[binding.action]) }}
+              </button>
+            </div>
+          </div>
+        </section>
       </div>
-      <div class="columns">
-        Settings are saved at {{this.$store.state.settings.configPath}}
+
+      <div class="columns settings-path">
+        Settings are saved at {{ this.$store.state.settings.configPath }}
       </div>
-      <small><i>World of Warcraft® and Blizzard Entertainment® are 
-            all trademarks or registered trademarks of Blizzard 
-            Entertainment in the United States and/or other 
-            countries. These terms and all related materials, 
-            logos, and images are copyright © Blizzard 
-            Entertainment. This app is in no way associated with 
-            or endorsed by Blizzard Entertainment®.”</i></small>
     </div>
   </div>
 </template>
 
 <script>
-const { BrowserWindow } = require('@electron/remote')
+const { BrowserWindow } = require('@electron/remote');
+const { getKeyLabel, keyNameFromEvent } = require('../../domain/keybinds');
 
 export default {
-  name: "settings",
+  name: 'settings',
   components: {
-    settingsMenu: require("./settingsMenu")
+    settingsMenu: require('./settingsMenu'),
   },
   methods: {
     openDevTools() {
-      BrowserWindow.getFocusedWindow().webContents.openDevTools()
+      BrowserWindow.getFocusedWindow().webContents.openDevTools();
     },
-    setAlwaysOnTop: function({ target: element }) {
-      this.$store.commit("setAlwaysOnTop", element.checked);
+    setAlwaysOnTop({ target: element }) {
+      this.$store.commit('setAlwaysOnTop', element.checked);
       BrowserWindow.getFocusedWindow().setAlwaysOnTop(element.checked);
     },
-    setWindowTransparency: function({ target: element }) {
-      this.$store.commit("setWindowTransparency", element.value);
-      const html = window.document.querySelector("html");
-      const body = window.document.querySelector("body");
-      const alphaChannel = element.value / 100;
-      html.style.backgroundColor = "transparent";
-      html.style.opacity = alphaChannel;
-      body.style.backgroundColor = `rgba(22, 27, 38, ${alphaChannel})`;
-    }
+    startKeybindCapture(action) {
+      this.listeningAction = action;
+    },
+    getKeyLabel,
+    handleKeybindCapture(event) {
+      if (!this.listeningAction) return;
+      const key = keyNameFromEvent(event);
+      event.preventDefault();
+      event.stopPropagation();
+      if (!key) return;
+      const action = this.listeningAction;
+      this.$store.commit('setKeybind', { action, key });
+      this.keybinds = Object.assign({}, this.keybinds, {
+        [action]: key,
+      });
+      this.listeningAction = null;
+    },
+  },
+  mounted() {
+    document.addEventListener('keydown', this.handleKeybindCapture, true);
+  },
+  destroyed() {
+    document.removeEventListener('keydown', this.handleKeybindCapture, true);
   },
   data() {
     return {
       alwaysOnTop: this.$store.state.settings.alwaysOnTop,
-      windowTransparency: this.$store.state.settings.windowTransparency
+      keybindOptions: [
+        { action: 'toggleSpectate', label: 'Toggle Spectate' },
+        { action: 'addWaypoint', label: 'Add WP' },
+        { action: 'playCinematic', label: 'Play' },
+        { action: 'clearWaypoints', label: 'Clear WPS' },
+      ],
+      keybinds: Object.assign({}, this.$store.state.settings.keybinds),
+      listeningAction: null,
     };
-  }
+  },
 };
 </script>
 
 <style scoped>
-  .transparency {
-    margin: 0 0;
+  .settings-grid {
+    display: grid;
+    grid-template-columns: minmax(260px, 320px) minmax(320px, 420px);
+    gap: 18px;
+    align-items: start;
+    margin-top: 8px;
   }
-  small {
-    color:#5a5a5a;
+  .settings-panel {
+    border: 1px solid #263247;
+    background-color: #10151f;
+    padding: 18px;
+  }
+  .devtools-button {
+    margin-top: 18px;
+    background-color: #10151f;
+    border: 1px solid #23c7d8;
+    color: #fff;
+  }
+  .devtools-button:hover,
+  .devtools-button:focus {
+    color: #fff;
+    border-color: #40e7f1;
+    box-shadow: 0 0 0 1px rgba(35, 199, 216, 0.35);
+  }
+  .keybind-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 10px;
+  }
+  .keybind-label {
+    color: #fff;
+    font-weight: 600;
+  }
+  .keybind-button {
+    min-width: 110px;
+    background-color: #10151f;
+    border: 1px solid #263247;
+    color: #fff;
+    justify-content: center;
+  }
+  .keybind-button:hover,
+  .keybind-button:focus,
+  .keybind-button.is-listening {
+    color: #fff;
+    border-color: #23c7d8;
+    box-shadow: 0 0 0 1px rgba(35, 199, 216, 0.35);
+  }
+  .keybind-button.is-listening {
+    background-color: #092532;
+  }
+  .settings-path {
+    margin-top: 16px;
+    color: #626b82;
+  }
+  @media (max-width: 900px) {
+    .settings-grid {
+      grid-template-columns: 1fr;
+    }
   }
 </style>
