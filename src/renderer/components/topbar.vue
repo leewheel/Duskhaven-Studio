@@ -29,30 +29,46 @@
 </template>
 
 <script>
-  const { BrowserWindow } = require('@electron/remote')
+  const remote = require('@electron/remote')
+  const { BrowserWindow } = remote;
   const { getKeyLabel } = require('../domain/keybinds');
   var WindowStatus = { maximized: false }
-  const win = BrowserWindow.getFocusedWindow();
+
+  function getWindow() {
+    return remote.getCurrentWindow() || BrowserWindow.getFocusedWindow();
+  }
+
   export default {
     name: 'topbar',
     created() {
-      const store = this.$store;
-      window.onbeforeunload = (e) => {
-        store.dispatch('saveSettings');
-        store.commit('setMode', 'DISABLED');
-        store.commit("setTimeOfDayStatus", false);
-        if (process.env.NODE_ENV === 'development') return;
-        process.nextTick(() => win.destroy());
-      }
+      window.onbeforeunload = () => this.cleanupBeforeClose();
     },
     mounted() {
       feather.replace({  width: "16", height: "16" })
     },
     methods: {
+        cleanupBeforeClose() {
+          try {
+            this.$store.dispatch('saveSettings');
+          } catch (error) {
+            console.warn('[Duskhaven window] Failed to save settings before close', error);
+          }
+
+          try {
+            this.$store.commit('setMode', 'DISABLED');
+            this.$store.commit("setTimeOfDayStatus", false);
+          } catch (error) {
+            console.warn('[Duskhaven window] Failed to reset game state before close', error);
+          }
+        },
         minimize() {
+          const win = getWindow();
+          if (!win) return;
           win.minimize();
         },
         maximize() {
+          const win = getWindow();
+          if (!win) return;
           if(WindowStatus.maximized === true) {
             WindowStatus.maximized = false;
             win.unmaximize();
@@ -62,7 +78,10 @@
           }
         },
         close() {
-          win.close();
+          const win = getWindow();
+          if (!win) return;
+          this.cleanupBeforeClose();
+          win.destroy();
         },
     },
     computed: {
