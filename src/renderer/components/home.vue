@@ -3,7 +3,7 @@
         <div class="sidenav">
             <div class="navbar-brand" >
               <a class="navbar-item" style="-webkit-app-region: drag; font-size: 1.2rem;">
-                <img class="bugcraft" src="../assets/bugcraft.svg" alt="Bugcraft Studio">
+                <img class="duskhaven-logo" src="../assets/duskhaven-logo-sidebar.png" alt="Duskhaven Studio">
               </a>
           </div>
           <navbar></navbar>
@@ -36,13 +36,17 @@
 </script>
 
 <style scoped>
-  .bugcraft {
-    width: 100%;
-    height: 100%;
+  .duskhaven-logo {
+    width: 152px;
+    height: auto;
+    max-height: none;
+    object-fit: contain;
   }
   .navbar-item {
     transform: scale(1);
     -webkit-transform-origin-y: 20px;
     width: 100%;
+    justify-content: center;
+    padding: 10px 4px 6px;
   }
 </style>

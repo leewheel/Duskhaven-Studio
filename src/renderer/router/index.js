@@ -23,6 +23,7 @@ export default new Router({
       children: [
         { path: '', component: require('@/components/sections/spectate') },
         { path: 'cinematicBuilder', component: require('@/components/sections/cinematicBuilder') },
+        { path: 'export', component: require('@/components/sections/cinematicExport') },
       ],
     },
     {
@@ -37,7 +38,6 @@ export default new Router({
       component: require('@/components/home'),
       children: [
         { path: '', component: require('@/components/sections/settings') },
-        { path: 'laboratory', component: require('@/components/sections/laboratory') },
       ],
     },
   ],

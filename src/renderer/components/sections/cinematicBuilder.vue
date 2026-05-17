@@ -225,7 +225,7 @@
   }
   a:hover {
     text-decoration: none;
-    color: #ff1a3b;
+    color: #40e7f1;
   }
   .easing {
     margin-top: -2px;

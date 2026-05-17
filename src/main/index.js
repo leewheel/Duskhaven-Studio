@@ -1,5 +1,5 @@
 require('@electron/remote/main').initialize();
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, desktopCapturer, ipcMain } = require('electron');
 
 import * as remoteMain from '@electron/remote/main';
 
@@ -22,14 +22,15 @@ function createWindow() {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    width: 1280,
-    minWidth: 750,
-    height: 370,
+    width: 1360,
+    minWidth: 1180,
+    height: 430,
+    minHeight: 410,
     backgroundColor: "#161b26",
     frame: false,
-    title: 'BugCraft Studio',
+    title: 'Duskhaven Studio',
     bottom: 0,
-    icon: path.join(__dirname, '/../../static/resources/bugcraftstudio.ico'),
+    icon: path.join(__dirname, '/../../static/resources/duskhavenstudio.ico'),
     transparent: true,
     webPreferences: {
       devTools: true,
@@ -46,6 +47,21 @@ function createWindow() {
     mainWindow = null;
   });
 }
+
+ipcMain.handle('duskhaven:get-capture-sources', async () => {
+  const sources = await desktopCapturer.getSources({
+    types: ['window'],
+    thumbnailSize: { width: 220, height: 124 },
+  });
+
+  return sources.filter(source => {
+    return source.name.toLowerCase().indexOf('world of warcraft') !== -1;
+  }).map(source => ({
+    id: source.id,
+    name: source.name,
+    thumbnail: source.thumbnail.toDataURL(),
+  }));
+});
 
 app.on('ready', createWindow);
 

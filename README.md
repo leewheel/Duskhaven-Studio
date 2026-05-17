@@ -1,6 +1,6 @@
 
 <h1 align="center">
-  BugCraft Studio.
+  Duskhaven Studio.
 </h1>
 
 <h4 align="center">An open source Machinima tool for WoW machinima makers.</h4>
@@ -11,7 +11,7 @@
   <a href="#license">License</a>
 </p>
 
-![BugCraft Studio UI](https://raw.githubusercontent.com/noggaholic/bugcraft-studio/master/ui.png)
+![Duskhaven Studio UI](ui.png)
 
 ## Key Features 🎉
 
@@ -44,7 +44,7 @@
 
 ## How To Install
 
-Grab the latest release from the [Releases](https://github.com/noggaholic/bugcraft-studio/releases) section.
+Build or run the project locally from this repository.
 
 Uncompress the file you've download and execute the installer. A desktop short-cut will be created after installation, always open it `as administrator`.
 
@@ -54,15 +54,7 @@ Your contributions are always welcome :). Please have a look at the [contributio
 
 ## You may also like...
 
-- [Machinima Studio](https://github.com/noggaholic/machinima-studio) - Machinima tool for Guild Wars 2
-- [AIO Sandbox](https://github.com/barncastle/AIO-Sandbox) - An "All In One" sandbox server that supports all pre-Cata builds of WoW with an emphasis on exploration.
-
 ## License
 
 The Unlicense
-
----
-
-> [karliky.com](https://www.karliky.com) &nbsp;&middot;&nbsp;
-> Twitter [@k4rliky](https://twitter.com/k4rliky) 
 

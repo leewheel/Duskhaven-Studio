@@ -232,6 +232,6 @@ window.launch = launchCore;
 // 4.3.4 WMO rendering related wow.exe+39F37E - 39 46 50              - cmp [esi+50],eax
 // 4.3.4 WMO Rendering change this wow.exe+39F378 - 8B 87 94000000        - mov eax,[edi+00000094] to 00000090
 // Player Scale pattern 1.12 00 00 80 3F 00 00 80 3F 00 00 80 3F 9A 99 99 3F 00 00 00 00 00 00 00 3F 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 D9 11 68 40 F8 64 00 C0 42 DA 94 BF C8 53 54 BF B5 31 CB 3F
-// Small pattern by nogg 00 00 00 3F 00 00 80 3F 00 00 80 3F 9A 99 99 3F 00 00 00 00 00 00 80 3F 00 00 00 00 00 00 00 00
+// Small player scale pattern 00 00 00 3F 00 00 80 3F 00 00 80 3F 9A 99 99 3F 00 00 00 00 00 00 80 3F 00 00 00 00 00 00 00 00
 // 0.5.3 Scale WoWClient.CGObject_C::GetScale+3 - D9 40 10              - fld dword ptr [eax+10]
 // 0.5.3 WoWClient.CGObject_C::GetScale+3 - D9 05 18390B01        - fld dword ptr [WoWClient.exe+CB23B4] { (0.70) }

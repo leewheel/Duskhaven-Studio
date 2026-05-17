@@ -1,5 +1,10 @@
-const gui = require("globaluserinput").default;
-const ActiveWindow = require('active-window-sync');
+const gui = require('../native/globalUserInput');
+const ActiveWindow = require('../native/activeWindow');
+
+function isGameActive() {
+  const activeWindow = ActiveWindow.find();
+  return activeWindow && activeWindow.includes('World of Warcraft');
+}
 
 function EnableKeyboardControls(Game, EnableSpectate, EnableViewMatrixUpdate, GetCameraData, SetPosition, SetSpeed, Offsets, Memory) {
   return (CameraStruct, speed) => {
@@ -23,7 +28,7 @@ function EnableKeyboardControls(Game, EnableSpectate, EnableViewMatrixUpdate, Ge
     EnableViewMatrixUpdate(ViewMatrixInstructionsPointer);
 
     return setInterval(() => {
-      if (ActiveWindow.find() !== 'World of Warcraft') {
+      if (!isGameActive()) {
         return; // only move the camera if the active window is the game window
       }
 

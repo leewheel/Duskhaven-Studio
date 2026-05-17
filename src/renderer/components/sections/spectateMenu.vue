@@ -25,6 +25,18 @@
           <span>Cinematic builder</span>
         </router-link>
       </li>
+      <li>
+        <router-link
+          to="/spectate/export"
+          class="nav-item is-tab"
+          v-bind:class="{ 'is-active': exportActived }"
+        >
+          <span class="icon is-small">
+            <i data-feather="download"></i>
+          </span>
+          <span>Export</span>
+        </router-link>
+      </li>
     </ul>
     <div class="cinematic_menu" v-if="this.$route.path === '/spectate/cinematicBuilder'">
       <div v-on:click="loadCinematic">
@@ -40,7 +52,7 @@
 </template>
 
 <script>
-const filters = [{ name: `BugCraft's Studio Cinematic (JSON)`, extensions: ['json'] }];
+const filters = [{ name: `Duskhaven Studio Cinematic (JSON)`, extensions: ['json'] }];
 const { dialog } = require('@electron/remote');
 const fs = require('fs');
 
@@ -79,7 +91,7 @@ export default {
       const cinematicPath = dialog.showSaveDialogSync({ 
         properties: ['openFile'], 
         filters,
-        title: "Save BugCraft's Studio Cinematic",
+        title: "Save Duskhaven Studio Cinematic",
         defaultPath,
       });
       const cinematicSteps = this.$store.getters.steps;
@@ -96,12 +108,15 @@ export default {
   data() {
     const data = {
       spectateActived: false,
-      cinematicBuilderActived: false
+      cinematicBuilderActived: false,
+      exportActived: false
     };
     if (this.$route.path === "/spectate") {
       data.spectateActived = true;
     } else if (this.$route.path === "/spectate/cinematicBuilder") {
       data.cinematicBuilderActived = true;
+    } else if (this.$route.path === "/spectate/export") {
+      data.exportActived = true;
     }
     return data;
   }

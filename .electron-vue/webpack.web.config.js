@@ -40,10 +40,6 @@ let webConfig = {
           loader: 'vue-loader',
           options: {
             extractCSS: true,
-            loaders: {
-              sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax=1',
-              scss: 'vue-style-loader!css-loader!sass-loader'
-            }
           }
         }
       },

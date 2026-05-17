@@ -2,18 +2,18 @@
   <div class="error">
     <div class="wrapper">
       <div class="fatal-description">
-        <img src="../assets/mpq.png" class="error-img" alt="Nogg-aholic forever.">
+        <img src="../assets/mpq.png" class="error-img" alt="Duskhaven Studio">
         <h1 style="-webkit-app-region: drag;">A fatal error has ocurred</h1>
         <h2>Error description:</h2>
         <p class="description">{{error ? error : 'No error found :('}}</p>
         <p>If you don't know how to fix it, please open an issue here: 
           <a 
-            v-on:click="open('https://github.com/noggaholic/bugcraft-studio')"
-          >https://github.com/noggaholic/bugcraft-studio</a>
+            v-on:click="open('')"
+          >Duskhaven Studio</a>
         </p>
         <div class="actions">
           <button class="err-button" v-on:click="reload()">Reload</button>
-          <button class="err-button" v-on:click="exit()">Close BugCraft Studio</button>
+          <button class="err-button" v-on:click="exit()">Close Duskhaven Studio</button>
         </div>
       </div>
     </div>

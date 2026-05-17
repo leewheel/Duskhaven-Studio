@@ -3,7 +3,7 @@
 Issue description.
 
 - WoW Version
-- BugCraft Version
+- Duskhaven Studio Version
 
 
 ## Details and screenshots

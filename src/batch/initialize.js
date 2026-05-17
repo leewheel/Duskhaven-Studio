@@ -66,7 +66,7 @@ function initialize(cb) {
 
     process = wind.getProcess();
     // Ensure that the process was opened
-    if (!process.isValid()) return cb(new Error(`Cannot get process handle. Are you running BugCraft Studio as administrator? - isValid ${process.isValid()}`));
+    if (!process.isValid()) return cb(new Error(`Cannot get process handle. Are you running Duskhaven Studio as administrator? - isValid ${process.isValid()}`));
     /* eslint-disable quotes, no-useless-escape */
     module = process.getModules(".*\.exe")[0];
     if (!module) return false;

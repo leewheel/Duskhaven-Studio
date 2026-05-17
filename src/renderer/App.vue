@@ -9,7 +9,7 @@
   const fs = require('fs');
   const { get } = require('lodash');
   export default {
-    name: 'bugcraft-studio',
+    name: 'Duskhaven-Studio',
     mounted() {
       const store = this.$store;
       launch((error, AppManager) => {
@@ -65,7 +65,7 @@
   }
 </script>
 
-<style lang="scss">
+<style>
   html {
     overflow-y: auto;
   }
@@ -132,26 +132,44 @@
     flex-direction: column;
     align-items: center;
   }
-  .navbar-item {
+  .sidenav .navbar-item {
     color: #e8e8ea;
     padding-top: 12px;
     padding-bottom: 12px;
     margin-bottom: 5px;
   }
-  .navbar-item:hover, a.navbar-item:hover, a.navbar-item:focus-within {
+  .sidenav .navbar-item,
+  .sidenav a.navbar-item,
+  .sidenav .navbar-item:visited,
+  .sidenav .navbar-item:hover,
+  .sidenav a.navbar-item:hover,
+  .sidenav a.navbar-item:focus,
+  .sidenav a.navbar-item:focus-within,
+  .sidenav a.navbar-item:active,
+  .sidenav a.navbar-item.is-active,
+  .sidenav a.navbar-item.router-link-active,
+  .sidenav a.navbar-item.router-link-exact-active {
     color: #e8e8ea;
+    background-color: transparent;
   }
 
-  .navbar-item:hover, a.navbar-item:hover {
+  .sidenav .navbar-item:hover,
+  .sidenav a.navbar-item:hover,
+  .sidenav a.navbar-item:focus,
+  .sidenav a.navbar-item:focus-within,
+  .sidenav a.navbar-item.is-active,
+  .sidenav a.navbar-item.router-link-active,
+  .sidenav a.navbar-item.router-link-exact-active {
     background-color: #10141c;
     border-radius: 5px;
   }
-  a.navbar-item.router-link-exact-active {
-    background-color: #10141c;
-    border-radius: 5px;
-  }
-  .router-link-exact-active > .navbar-menu-icon {
-    color: #FF1A3B;
+  .sidenav .navbar-item:hover > .navbar-menu-icon,
+  .sidenav .navbar-item:focus > .navbar-menu-icon,
+  .sidenav .navbar-item:focus-within > .navbar-menu-icon,
+  .sidenav .navbar-item.is-active > .navbar-menu-icon,
+  .sidenav .router-link-active > .navbar-menu-icon,
+  .sidenav .router-link-exact-active > .navbar-menu-icon {
+    color: #40e7f1;
   }
 
   .navbar-menu-item {
@@ -204,12 +222,12 @@
     background-color: transparent;
     border: none;
     border-radius: inherit;
-    border-bottom: 3px solid #ff1a3b;
+    border-bottom: 3px solid #40e7f1;
   }
   .tabs.is-boxed a.router-link-exact-active {
     border: none;
     border-radius: inherit;
-    border-bottom: 3px solid #ff1a3b;
+    border-bottom: 3px solid #40e7f1;
   }
   .tabs ul {
     border: none;
@@ -220,7 +238,7 @@
   .box {
     background-color: #161b26;
     color: #e8e8ea;
-    border-left: 6px solid #ff1a3b;
+    border-left: 6px solid #40e7f1;
   }
 
   .title {

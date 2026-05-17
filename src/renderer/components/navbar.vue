@@ -2,7 +2,7 @@
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-menu">
       <div class="navbar-start">
-        <router-link to="/" class="navbar-item navbar-menu-item" data-id="general">
+        <router-link to="/" exact class="navbar-item navbar-menu-item" data-id="general">
           <div class="navbar-menu-icon">
             <span class="icon">
               <i data-feather="home"></i>

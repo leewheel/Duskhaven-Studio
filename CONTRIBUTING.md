@@ -4,13 +4,12 @@ First of all, thanks for thinking of contributing to this project. :smile:
 
 Before sending a Pull Request, please make sure to discuss your work or proposal by creating an Issue.
 
-# Developing BugCraft Studio
+# Developing Duskhaven Studio
 
 1. Install with
 
     ```sh
-    git clone https://github.com/noggaholic/bugcraft-studio
-    cd bugcraft-studio
+    cd Duskhaven-Studio
     npm install
     ```
 
@@ -24,12 +23,6 @@ Before sending a Pull Request, please make sure to discuss your work or proposal
 
     - Open a Windows PowerShell as administrator
     ```sh
-    cd /bugcraft-studio
+    cd /Duskhaven-Studio
     npm run dev
     ```
-
-4. Create a PR with your proposed changes.
-
-If in doubt, contact me by using these methods:
-> [karliky.com](https://www.karliky.com) &nbsp;&middot;&nbsp;
-> Twitter [@k4rliky](https://twitter.com/k4rliky)

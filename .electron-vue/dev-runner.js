@@ -114,7 +114,12 @@ function startMain () {
 }
 
 function startElectron () {
-  electronProcess = spawn(electron, ['--inspect=5858', path.join(__dirname, '../dist/electron/main.js')])
+  const electronEnv = Object.assign({}, process.env)
+  delete electronEnv.NODE_OPTIONS
+
+  electronProcess = spawn(electron, ['--inspect=5858', path.join(__dirname, '../dist/electron/main.js')], {
+    env: electronEnv
+  })
 
   electronProcess.stdout.on('data', data => {
     electronLog(data, 'blue')
