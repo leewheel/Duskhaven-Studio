@@ -7,12 +7,18 @@
             </span>
             <div>[{{ keybindLabels.addWaypoint }}] 添加路径点 - [{{ keybindLabels.playCinematic }}] 播放 - [{{ keybindLabels.clearWaypoints }}] 清除路径点</div>
           </div>
-          <div v-if="this.$store.state.camera.mode === 'DISABLED'" class="spectate-status">
-            <span class="icon" style="color: #626b82;">
-              <i class="fas fa-circle"></i>
-            </span>
-            <div>[{{ keybindLabels.toggleSpectate }}] 切换观察者模式</div>
-          </div>
+      <div v-if="this.$store.state.camera.mode === 'DISABLED'" class="spectate-status">
+        <span class="icon" style="color: #626b82;">
+          <i class="fas fa-circle"></i>
+        </span>
+        <div>[{{ keybindLabels.toggleSpectate }}] 切换观察者模式</div>
+        <button
+          v-if="!$store.getters.isGameConnected"
+          class="reconnect-btn"
+          :disabled="$store.state.core.searching"
+          @click="tryReconnect"
+        >{{ $store.state.core.searching ? '搜索中...' : '定位魔兽世界' }}</button>
+      </div>
           <div v-if="this.$store.state.camera.mode === 'PLAYING'" class="spectate-status">
             <span class="icon" style="color: #c10808;">
               <i class="fas fa-circle"></i>
@@ -53,8 +59,26 @@
         self.showToast(msg);
       };
     },
-    methods: {
-        showToast(msg) {
+  methods: {
+    tryReconnect() {
+      if (this.$store.state.core.searching) return;
+      if (typeof window.launch !== 'function') {
+        this.showToast('核心桥接未加载，请以管理员身份重新运行');
+        return;
+      }
+      this.$store.commit('setSearching', true);
+      window.launch((error, AppManager) => {
+        this.$store.commit('setSearching', false);
+        if (error || !AppManager) {
+          this.showToast('未找到魔兽世界窗口，请确保游戏已启动');
+          return;
+        }
+        this.$store.commit('setGameInfo', AppManager.Game);
+        this.$store.commit('setCore', AppManager);
+        this.showToast('已连接到魔兽世界');
+      });
+    },
+    showToast(msg) {
           if (this._toastTimer) clearTimeout(this._toastTimer);
           this.toast.message = msg;
           this.toast.visible = true;
@@ -176,9 +200,29 @@
     .toast-fade-leave-active {
       transition: opacity 0.3s ease, transform 0.3s ease;
     }
-    .toast-fade-enter,
-    .toast-fade-leave-to {
-      opacity: 0;
-      transform: translateX(-50%) translateY(-10px);
-    }
+.toast-fade-enter,
+.toast-fade-leave-to {
+  opacity: 0;
+  transform: translateX(-50%) translateY(-10px);
+}
+.reconnect-btn {
+  margin-left: 14px;
+  padding: 2px 14px;
+  font-size: 13px;
+  color: #40e7f1;
+  background: transparent;
+  border: 1px solid #40e7f1;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  -webkit-app-region: no-drag;
+}
+.reconnect-btn:hover:not(:disabled) {
+  background: #40e7f1;
+  color: #1e2433;
+}
+.reconnect-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
 </style>

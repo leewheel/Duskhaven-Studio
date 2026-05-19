@@ -13,13 +13,15 @@
     mounted() {
       const store = this.$store;
       console.log('[Duskhaven app] mounted; core bridge is', typeof window.launch);
-      if (typeof window.launch !== 'function') {
-        console.warn('[Duskhaven app] 核心桥接未加载（游戏未运行），UI 正常显示但功能不可用。');
-        return;
-      }
+  if (typeof window.launch !== 'function') {
+    console.warn('[Duskhaven app] 核心桥接未加载（游戏未运行），UI 正常显示但功能不可用。');
+    return;
+  }
 
-      window.launch((error, AppManager) => {
-        if (error) {
+  store.commit('setSearching', true);
+  window.launch((error, AppManager) => {
+    store.commit('setSearching', false);
+    if (error) {
           console.warn('[Duskhaven app] 核心启动失败（可能游戏未运行）', error.message);
           return;
         }
