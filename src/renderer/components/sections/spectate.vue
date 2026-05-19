@@ -165,7 +165,7 @@ function ensureCoreReady(store, cb) {
   }
   if (coreLaunchPending) return;
   if (typeof window.launch !== 'function') {
-    console.warn('[Duskhaven spectate] Core bridge is not available');
+    window.__duskhavenToast && window.__duskhavenToast('未检测到魔兽世界运行');
     return;
   }
 

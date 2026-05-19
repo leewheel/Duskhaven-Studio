@@ -108,11 +108,15 @@ export default {
   },
   methods: {
     resetRender() {
-      const { ResetRenderFlags } = this.$store.getters.core.environment;
+      const core = this.$store.getters.core;
+      if (!core) { window.__duskhavenToast && window.__duskhavenToast('未检测到魔兽世界运行'); return; }
+      const { ResetRenderFlags } = core.environment;
       ResetRenderFlags();
     },
     setRenderToRandom() {
-      const { SetCustomRenderFlags } = this.$store.getters.core.environment;
+      const core = this.$store.getters.core;
+      if (!core) { window.__duskhavenToast && window.__duskhavenToast('未检测到魔兽世界运行'); return; }
+      const { SetCustomRenderFlags } = core.environment;
       const randomRender = [
         randomInteger(0, 255),
         randomInteger(0, 255),
@@ -128,13 +132,17 @@ export default {
     },
     upRenderFlags({ index }) {
       const renderIndex = Number(index);
-      const { SetRenderFlags, GetRenderFlags } = this.$store.getters.core.environment;
+      const core = this.$store.getters.core;
+      if (!core) { window.__duskhavenToast && window.__duskhavenToast('未检测到魔兽世界运行'); return; }
+      const { SetRenderFlags, GetRenderFlags } = core.environment;
       SetRenderFlags(renderIndex);
       this.$set(this.renderflags, renderIndex, GetRenderFlags(renderIndex));
     },
     downRenderFlags({ index }) {
       const renderIndex = Number(index);
-      const { SetRenderFlags, GetRenderFlags } = this.$store.getters.core.environment;
+      const core = this.$store.getters.core;
+      if (!core) { window.__duskhavenToast && window.__duskhavenToast('未检测到魔兽世界运行'); return; }
+      const { SetRenderFlags, GetRenderFlags } = core.environment;
       const isNegative = true;
       SetRenderFlags(renderIndex, isNegative);
       this.$set(this.renderflags, renderIndex, GetRenderFlags(renderIndex));

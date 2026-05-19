@@ -14,17 +14,13 @@
       const store = this.$store;
       console.log('[Duskhaven app] mounted; core bridge is', typeof window.launch);
       if (typeof window.launch !== 'function') {
-        const message = '核心桥接加载失败。请重新安装 Duskhaven Studio，或从发布文件夹中运行未打包的构建版本。';
-        console.warn('[Duskhaven app]', message);
-        if (this.$route.path !== '/error') this.$router.push({ name: 'error', params: { error: message }});
+        console.warn('[Duskhaven app] 核心桥接未加载（游戏未运行），UI 正常显示但功能不可用。');
         return;
       }
 
       window.launch((error, AppManager) => {
         if (error) {
-          console.log('# Error', error)
-          console.warn('[Duskhaven app] startup core launch failed', error);
-          if (this.$route.path !== '/error') this.$router.push({ name: 'error', params: { error: error.message }});
+          console.warn('[Duskhaven app] 核心启动失败（可能游戏未运行）', error.message);
           return;
         }
         console.log('[Duskhaven app] startup core launch complete');
@@ -49,9 +45,9 @@
                 const settings = JSON.stringify(this.$store.getters.getExistingSettings);
                 return fs.writeFileSync(settingsPaths, settings, 'utf8');
               }
-              this.$router.push({ name: 'error', params: { error: error.message }});
+              console.warn('[Duskhaven app] 加载设置失败', error.message);
             } catch (error) {
-              this.$router.push({ name: 'error', params: { error: error.message }});
+              console.warn('[Duskhaven app] 加载设置失败', error.message);
             }
           }
         });

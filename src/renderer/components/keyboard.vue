@@ -41,7 +41,7 @@
     if (action) pendingCoreAction = action;
     if (coreLaunchPending) return false;
     if (typeof window.launch !== 'function') {
-      console.warn('[Duskhaven keyboard] Core bridge is not available');
+      window.__duskhavenToast && window.__duskhavenToast('未检测到魔兽世界运行');
       return false;
     }
 
@@ -49,7 +49,7 @@
     window.launch((error, AppManager) => {
       coreLaunchPending = false;
       if (error) {
-        console.warn('[Duskhaven keyboard] Core launch failed', error);
+        window.__duskhavenToast && window.__duskhavenToast('未检测到魔兽世界运行');
         if (store && store.commit) store.commit('setMode', 'DISABLED');
         return;
       }

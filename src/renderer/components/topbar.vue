@@ -20,6 +20,9 @@
             <div>[{{ keybindLabels.playCinematic }}] 停止运镜</div>
           </div>
       </div>
+      <transition name="toast-fade">
+        <div v-if="toast.visible" class="toast-popup">{{ toast.message }}</div>
+      </transition>
       <div class="topbar-app-control" style="-webkit-app-region: no-drag;">
           <span v-on:click="minimize"><i data-feather="minus"></i></span>
           <span v-on:click="maximize"><i data-feather="square"></i></span>
@@ -44,9 +47,21 @@
       window.onbeforeunload = () => this.cleanupBeforeClose();
     },
     mounted() {
-      feather.replace({  width: "16", height: "16" })
+      feather.replace({  width: "16", height: "16" });
+      const self = this;
+      window.__duskhavenToast = function (msg) {
+        self.showToast(msg);
+      };
     },
     methods: {
+        showToast(msg) {
+          if (this._toastTimer) clearTimeout(this._toastTimer);
+          this.toast.message = msg;
+          this.toast.visible = true;
+          this._toastTimer = setTimeout(() => {
+            this.toast.visible = false;
+          }, 3000);
+        },
         cleanupBeforeClose() {
           try {
             this.$store.dispatch('saveSettings');
@@ -98,7 +113,9 @@
       },
     },
     data() {
-      return {}
+      return {
+        toast: { message: '', visible: false },
+      }
     },
   };
 </script>
@@ -139,5 +156,29 @@
       display: flex;
       align-items: center;
       margin-left: 15px;
+    }
+    .toast-popup {
+      position: fixed;
+      top: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #ff1a3b;
+      color: #fff;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      z-index: 9999;
+      box-shadow: 0 4px 20px rgba(255, 26, 59, 0.4);
+      white-space: nowrap;
+    }
+    .toast-fade-enter-active,
+    .toast-fade-leave-active {
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .toast-fade-enter,
+    .toast-fade-leave-to {
+      opacity: 0;
+      transform: translateX(-50%) translateY(-10px);
     }
 </style>

@@ -51,13 +51,19 @@ export default {
     setPosition(state, position) {
       state.position = position;
       const core = this.getters.core && this.getters.core.camera;
-      if (!core) return;
+      if (!core) {
+        window.__duskhavenToast && window.__duskhavenToast('未检测到魔兽世界运行');
+        return;
+      }
       core.setPosition(position);
     },
     setSpeed(state, speed) {
       const core = this.getters.core && this.getters.core.camera;
       state.speed = speed;
-      if (!core) return;
+      if (!core) {
+        window.__duskhavenToast && window.__duskhavenToast('未检测到魔兽世界运行');
+        return;
+      }
       const isSpectateEnabled = state.mode !== 'DISABLED';
       core.setSpeed(Number(speed), isSpectateEnabled);
     },
@@ -91,14 +97,17 @@ export default {
     setCollision(state, enabled) {
       state.collision = enabled;
       const { camera: Camera } = this.getters.core || {};
-      if (!Camera) return;
+      if (!Camera) {
+        window.__duskhavenToast && window.__duskhavenToast('未检测到魔兽世界运行');
+        return;
+      }
       Camera.SetCollision(state.collision);
     },
     setMode(state, mode) {
       const previousMode = state.mode;
       const { camera: Camera } = this.getters.core || {};
       if (!Camera) {
-        console.warn('[Duskhaven camera] Core camera is not ready yet.');
+        window.__duskhavenToast && window.__duskhavenToast('未检测到魔兽世界运行');
         return;
       }
       state.mode = mode;
@@ -119,7 +128,7 @@ export default {
     addWaypoint(context) {
       const core = this.getters.core && this.getters.core.camera;
       if (!core) {
-        console.warn('[Duskhaven camera] Cannot add waypoint because core camera is not ready.');
+        window.__duskhavenToast && window.__duskhavenToast('未检测到魔兽世界运行');
         return;
       }
       const camViewMatrix = core.getView();
