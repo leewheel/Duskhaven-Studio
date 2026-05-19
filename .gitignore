@@ -10,3 +10,4 @@ thumbs.db
 !.gitkeep
 settings.json
 Releases/*
+.sisyphus/*
