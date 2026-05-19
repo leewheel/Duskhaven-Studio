@@ -14,7 +14,7 @@
       const store = this.$store;
       console.log('[Duskhaven app] mounted; core bridge is', typeof window.launch);
       if (typeof window.launch !== 'function') {
-        const message = 'Core bridge failed to load. Please reinstall Duskhaven Studio or run the unpacked build from the release folder.';
+        const message = '核心桥接加载失败。请重新安装 Duskhaven Studio，或从发布文件夹中运行未打包的构建版本。';
         console.warn('[Duskhaven app]', message);
         if (this.$route.path !== '/error') this.$router.push({ name: 'error', params: { error: message }});
         return;

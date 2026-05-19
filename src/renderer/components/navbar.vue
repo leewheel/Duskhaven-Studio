@@ -8,7 +8,7 @@
               <i data-feather="home"></i>
             </span>
           </div>
-          <div class="navbar-menu-title">General</div>
+          <div class="navbar-menu-title">首页</div>
         </router-link>
         <router-link to="/spectate" class="navbar-item navbar-menu-item" data-id="spectate">
           <div class="navbar-menu-icon">
@@ -16,7 +16,7 @@
              <i data-feather="video"></i>
             </span>
           </div>
-          <div class="navbar-menu-title">Spectate</div>
+          <div class="navbar-menu-title">观察者</div>
         </router-link>
         <router-link to="/environment" class="navbar-item navbar-menu-item" data-id="environment">
           <div class="navbar-menu-icon">
@@ -24,7 +24,7 @@
              <i data-feather="image"></i>
             </span>
           </div>
-          <div class="navbar-menu-title">Environment</div>
+          <div class="navbar-menu-title">环境</div>
         </router-link>
         <router-link to="/settings" class="navbar-item navbar-menu-item" data-id="settings">
           <div class="navbar-menu-icon">
@@ -32,7 +32,7 @@
               <i data-feather="sliders"></i>
             </span>
           </div>
-          <div class="navbar-menu-title">Settings</div>
+          <div class="navbar-menu-title">设置</div>
         </router-link>
       </div>
     </div>

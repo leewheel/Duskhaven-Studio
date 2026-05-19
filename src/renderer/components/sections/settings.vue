@@ -6,7 +6,7 @@
     <div class="container">
       <div class="settings-grid">
         <section class="settings-panel">
-          <label class="label">Window</label>
+          <label class="label">窗口</label>
           <label class="checkbox checkbox-custom">
             <input
               type="checkbox"
@@ -16,15 +16,15 @@
               v-on:change="setAlwaysOnTop($event)"
             />
             <label for="always_on_top">
-              <span></span>Set window always on top
+              <span></span>窗口置顶显示
             </label>
             <div class="checkbox_indicator no-drop"></div>
           </label>
-          <button class="button devtools-button" v-on:click="openDevTools">Open dev tools</button>
+          <button class="button devtools-button" v-on:click="openDevTools">打开开发者工具</button>
         </section>
 
         <section class="settings-panel">
-          <label class="label">Keybinds</label>
+          <label class="label">快捷键</label>
           <div
             class="field keybind-row"
             v-for="binding in keybindOptions"
@@ -37,7 +37,7 @@
                 v-bind:class="{ 'is-listening': listeningAction === binding.action }"
                 v-on:click="startKeybindCapture(binding.action)"
               >
-                {{ listeningAction === binding.action ? 'Press a key...' : getKeyLabel(keybinds[binding.action]) }}
+                {{ listeningAction === binding.action ? '按下按键...' : getKeyLabel(keybinds[binding.action]) }}
               </button>
             </div>
           </div>
@@ -45,7 +45,7 @@
       </div>
 
       <div class="columns settings-path">
-        Settings are saved at {{ this.$store.state.settings.configPath }}
+        配置文件保存路径：{{ this.$store.state.settings.configPath }}
       </div>
     </div>
   </div>
@@ -96,10 +96,10 @@ export default {
     return {
       alwaysOnTop: this.$store.state.settings.alwaysOnTop,
       keybindOptions: [
-        { action: 'toggleSpectate', label: 'Toggle Spectate' },
-        { action: 'addWaypoint', label: 'Add WP' },
-        { action: 'playCinematic', label: 'Play' },
-        { action: 'clearWaypoints', label: 'Clear WPS' },
+        { action: 'toggleSpectate', label: '切换观察者' },
+        { action: 'addWaypoint', label: '添加路径点' },
+        { action: 'playCinematic', label: '播放' },
+        { action: 'clearWaypoints', label: '清除路径点' },
       ],
       keybinds: Object.assign({}, this.$store.state.settings.keybinds),
       listeningAction: null,

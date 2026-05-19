@@ -7,20 +7,20 @@
     <div class="container cinematic-export">
       <div class="export-header">
         <div>
-          <h1 class="export-title">Cinematic Export</h1>
-          <p class="export-subtitle">Record the World of Warcraft game window while Duskhaven Studio plays your cinematic.</p>
+          <h1 class="export-title">运镜导出</h1>
+          <p class="export-subtitle">在 Duskhaven Studio 播放运镜时录制魔兽世界游戏窗口。</p>
         </div>
         <button class="button refresh-button" v-on:click="loadSources" :disabled="isRecording">
-          Refresh Sources
+          刷新源
         </button>
       </div>
 
       <div class="export-layout">
         <section class="source-panel">
-          <div class="export-panel-heading">Capture source</div>
+          <div class="export-panel-heading">捕获源</div>
           <div class="source-list">
             <div v-if="!sources.length" class="source-empty">
-              No World of Warcraft window found.
+              未找到魔兽世界窗口。
             </div>
             <button
               v-for="source in sources"
@@ -37,25 +37,25 @@
           </div>
 
           <div class="crop-panel">
-            <div class="export-panel-heading">Crop export</div>
+            <div class="export-panel-heading">裁剪导出</div>
             <p class="crop-hint">{{ cropHint }}</p>
             <div class="crop-actions">
-              <button class="log-button" v-if="!isCropping" v-on:click="startCropEditor" :disabled="isRecording || !hasRecording">Select Crop</button>
-              <button class="log-button crop-confirm-button" v-if="isCropping" v-on:click="confirmCrop" :disabled="isRecording">Confirm Crop</button>
-              <button class="log-button" v-on:click="resetCrop" :disabled="isRecording">Reset</button>
-              <button class="log-button" v-on:click="useWindowClientCrop" :disabled="isRecording || !recordingBounds">Use Game Area</button>
+              <button class="log-button" v-if="!isCropping" v-on:click="startCropEditor" :disabled="isRecording || !hasRecording">选择裁剪区域</button>
+              <button class="log-button crop-confirm-button" v-if="isCropping" v-on:click="confirmCrop" :disabled="isRecording">确认裁剪</button>
+              <button class="log-button" v-on:click="resetCrop" :disabled="isRecording">重置</button>
+              <button class="log-button" v-on:click="useWindowClientCrop" :disabled="isRecording || !recordingBounds">使用游戏区域</button>
             </div>
           </div>
         </section>
 
         <section class="record-panel">
-          <div class="export-panel-heading">Recording</div>
+          <div class="export-panel-heading">录制</div>
 
           <div v-show="isRecording" class="preview recording-slate">
             <div class="recording-dot"></div>
             <div>
-              <strong>Recording cinematic</strong>
-              <span>Live preview is paused to preserve export quality.</span>
+              <strong>正在录制运镜</strong>
+              <span>实时预览已暂停以保证导出质量。</span>
             </div>
           </div>
 
@@ -95,13 +95,13 @@
               </div>
               <div class="preview-button-row">
                 <button class="preview-control-button" type="button" v-on:click.stop="togglePreviewPlayback">
-                  {{ previewPaused ? 'Play' : 'Pause' }}
+                  {{ previewPaused ? '播放' : '暂停' }}
                 </button>
                 <button
                   class="preview-control-button icon-button"
                   type="button"
-                  v-bind:aria-label="previewFullscreen ? 'Exit fullscreen preview' : 'Fullscreen preview'"
-                  v-bind:title="previewFullscreen ? 'Exit fullscreen' : 'Fullscreen'"
+                  v-bind:aria-label="previewFullscreen ? '退出全屏预览' : '全屏预览'"
+                  v-bind:title="previewFullscreen ? '退出全屏' : '全屏'"
                   v-on:click.stop="togglePreviewFullscreen"
                 >
                   <span v-if="!previewFullscreen" class="preview-icon preview-icon-maximize"></span>
@@ -124,14 +124,14 @@
                 <span class="crop-handle crop-handle-s" v-on:mousedown.stop.prevent="startCropDrag($event, 's')"></span>
                 <span class="crop-handle crop-handle-sw" v-on:mousedown.stop.prevent="startCropDrag($event, 'sw')"></span>
                 <span class="crop-handle crop-handle-w" v-on:mousedown.stop.prevent="startCropDrag($event, 'w')"></span>
-                <span class="crop-label">Keep this area</span>
+                <span class="crop-label">保留此区域</span>
               </div>
             </div>
           </div>
 
           <div class="record-grid">
             <div>
-              <label class="label">Duration</label>
+              <label class="label">时长</label>
               <input
                 class="record-input"
                 type="number"
@@ -142,15 +142,15 @@
               >
             </div>
             <div>
-              <label class="label">Format</label>
-              <div class="record-value">MP4 Master</div>
+              <label class="label">格式</label>
+              <div class="record-value">MP4 母带</div>
             </div>
             <div>
-              <label class="label">Waypoints</label>
+              <label class="label">路径点</label>
               <div class="record-value">{{ cinematicSteps.length }}</div>
             </div>
             <div>
-              <label class="label">Status</label>
+              <label class="label">状态</label>
               <div class="record-value">{{ status }}</div>
             </div>
           </div>
@@ -161,14 +161,14 @@
               v-on:click="startRecording"
               :disabled="!canRecord"
             >
-              Record
+              录制
             </button>
             <button
               class="action-button stop-button"
               v-on:click="stopRecording"
               :disabled="!isRecording"
             >
-              Stop
+              停止
             </button>
             <button
               class="action-button save-button"
@@ -182,10 +182,10 @@
           <p class="hint">{{ hint }}</p>
           <div v-if="ffmpegLog" class="ffmpeg-log-panel">
             <div class="ffmpeg-log-header">
-              <span>FFmpeg log</span>
+              <span>FFmpeg 日志</span>
               <div>
-                <button class="log-button" v-on:click="copyFfmpegLog">Copy</button>
-                <button class="log-button" v-on:click="clearFfmpegLog">Clear</button>
+                <button class="log-button" v-on:click="copyFfmpegLog">复制</button>
+                <button class="log-button" v-on:click="clearFfmpegLog">清除</button>
               </div>
             </div>
             <pre class="ffmpeg-log">{{ ffmpegLog }}</pre>
@@ -221,8 +221,8 @@ const EXPORT_MIN_HEIGHT = 760;
 
 const EXPORT_PROFILES = {
   'mp4-master': {
-    label: 'MP4 Master',
-    description: 'High-quality MP4 export for editing, upload, and archival captures.',
+      label: 'MP4 母带',
+      description: '高质量 MP4 导出，适用于编辑、上传和存档。',
     extension: 'mp4',
     filters: [{ name: 'MP4 Video', extensions: ['mp4'] }],
     videoFilter: `fps=${EXPORT_FRAME_RATE},setpts=N/(${EXPORT_FRAME_RATE}*TB)`,
@@ -258,7 +258,7 @@ function runFfmpeg(args, onLog) {
   return new Promise((resolve, reject) => {
     const ffmpegPath = getFfmpegPath();
     if (!ffmpegPath) {
-      reject(new Error('Bundled ffmpeg binary was not found.'));
+      reject(new Error('未找到内置的 ffmpeg 二进制文件。'));
       return;
     }
 
@@ -286,7 +286,7 @@ function runFfmpeg(args, onLog) {
     ffmpeg.on('error', reject);
     ffmpeg.on('close', (code) => {
       if (code !== 0) {
-        const error = new Error(stderr || `ffmpeg exited with code ${code}`);
+        const error = new Error(stderr || `ffmpeg 退出，错误码 ${code}`);
         error.ffmpegArgs = args;
         reject(error);
         return;
@@ -298,7 +298,7 @@ function runFfmpeg(args, onLog) {
 
 function runFfmpegOptional(args, onLog) {
   return runFfmpeg(args, onLog).catch((error) => {
-    if (onLog) onLog(`\nAnalysis warning: ${error.message}\n`);
+    if (onLog) onLog(`\n分析警告: ${error.message}\n`);
     return null;
   });
 }
@@ -368,7 +368,7 @@ export default {
       },
     },
     saveButtonLabel() {
-      return 'Save MP4';
+      return '保存 MP4';
     },
     cropBoxStyle() {
       const metrics = this.getPreviewMetrics();
@@ -388,10 +388,10 @@ export default {
       };
     },
     cropHint() {
-      if (this.isCropping) return 'Drag the box over the part of the preview you want to keep, then confirm the crop.';
-      if (this.hasRecording && this.hasActiveCrop) return 'Preview is showing the confirmed crop. Select Crop to adjust it before saving.';
-      if (this.hasRecording) return 'Select Crop to draw the final frame directly on the preview before saving.';
-      return 'Record a preview first, then select the crop area on the video.';
+      if (this.isCropping) return '拖动裁剪框选择你要保留的预览区域，然后确认裁剪。';
+      if (this.hasRecording && this.hasActiveCrop) return '预览正在显示已确认的裁剪区域。保存前可重新选择裁剪进行调整。';
+      if (this.hasRecording) return '选择裁剪区域可在保存前直接在预览上绘制最终画面。';
+      return '请先录制预览，然后在视频上选择裁剪区域。';
     },
     hasActiveCrop() {
       const crop = this.getNormalizedCrop();
@@ -440,7 +440,7 @@ export default {
         top: WINDOW_TITLE_CROP_TOP,
       },
       ffmpegLog: '',
-      hint: 'Open World of Warcraft, then refresh sources if the game window is not listed.',
+      hint: '打开魔兽世界，如果游戏窗口未列出请刷新源。',
       isCropping: false,
       isRecording: false,
       lastError: '',
@@ -462,7 +462,7 @@ export default {
       recordingMimeType: '',
       selectedSource: null,
       sources: [],
-      status: 'Ready',
+      status: '就绪',
       stream: null,
       timeout: null,
       wasLooping: false,
@@ -510,14 +510,14 @@ export default {
       win.setSize(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT);
     },
     loadSources() {
-      this.status = 'Loading sources';
+      this.status = '加载源中';
       this.lastError = '';
-      this.hint = 'Looking for the World of Warcraft window.';
+      this.hint = '正在查找魔兽世界窗口。';
 
       const sourceTimeout = setTimeout(() => {
         if (this.status === 'Loading sources') {
-          this.status = 'Still loading';
-          this.hint = 'Source discovery is taking longer than expected. Try Refresh Sources after WoW is already open.';
+          this.status = '仍在加载';
+          this.hint = '源发现耗时超出预期。请确保魔兽世界已打开后尝试刷新源。';
         }
       }, 3000);
 
@@ -525,13 +525,13 @@ export default {
         clearTimeout(sourceTimeout);
         this.sources = this.filterCaptureSources(sources);
         this.selectedSource = this.sources[0] || null;
-        this.status = this.selectedSource ? 'Ready' : 'No sources found';
+        this.status = this.selectedSource ? '就绪' : '未找到源';
         this.hint = this.selectedSource
-          ? 'Ready to record the game window.'
-          : 'World of Warcraft was not found as a capturable window. Open WoW, use windowed or borderless mode, then refresh sources.';
+          ? '已准备好录制游戏窗口。'
+          : '未找到可捕获的魔兽世界窗口。请打开魔兽世界，使用窗口或无边框模式，然后刷新源。';
       }).catch((error) => {
         clearTimeout(sourceTimeout);
-        this.status = 'Source error';
+        this.status = '源错误';
         this.hint = error.message;
       });
     },
@@ -578,11 +578,11 @@ export default {
     startRecording() {
       this.normalizeRecordingDuration();
       this.clearRecording();
-      this.status = 'Starting';
+      this.status = '启动中';
       this.ffmpegLog = '';
       this.lastError = '';
-      this.hint = 'Focusing World of Warcraft before recording.';
-      this.appendFfmpegLog('Preparing capture...\n');
+      this.hint = '录制前聚焦魔兽世界窗口。';
+      this.appendFfmpegLog('准备捕获...\n');
       this.setRecordingPowerSave(true);
       this.focusSelectedSource().then((focused) => {
         this.appendFfmpegLog(`Focus request before capture: ${focused ? 'accepted' : 'not confirmed'}\n`);
@@ -613,8 +613,8 @@ export default {
           recorder.start(100);
 
           this.isRecording = true;
-          this.status = 'Recording';
-          this.hint = 'Recording the focused game window. The saved file will be cropped afterward.';
+          this.status = '录制中';
+          this.hint = '正在录制聚焦的游戏窗口。保存的文件将在之后进行裁剪。';
           this.playCinematicForExport();
           this.focusSelectedSource();
           this.timeout = setTimeout(this.stopRecording, this.recordingDuration * 1000);
@@ -622,7 +622,7 @@ export default {
       }).catch((error) => {
         this.setRecordingPowerSave(false);
         this.isRecording = false;
-        this.status = 'Recording error';
+        this.status = '录制错误';
         this.hint = error.message;
         this.stopPreview();
       });
@@ -644,7 +644,7 @@ export default {
       this.recordingBounds = null;
 
       if (!this.recordingCaptureId || this.recordingCaptureId.indexOf('window:') !== 0) {
-        throw new Error('Capture source is not a World of Warcraft application window. Refresh sources and select the WoW window again.');
+        throw new Error('捕获源不是魔兽世界应用程序窗口。请刷新源并重新选择魔兽世界窗口。');
       }
 
       return this.getWindowBounds().then((bounds) => {
@@ -690,15 +690,15 @@ export default {
     stopRecording() {
       this.clearRecordingTimeout();
       if (!this.mediaRecorder || this.mediaRecorder.state === 'inactive') return;
-      this.status = 'Preparing preview';
+      this.status = '准备预览';
       this.mediaRecorder.stop();
       if (this.wasLooping) this.$store.commit('setLoopCinematic', true);
     },
     prepareRecordingPreview() {
       if (!this.chunks.length) {
-        this.status = 'Recording error';
-        this.lastError = 'MediaRecorder returned no video chunks from the selected World of Warcraft window.';
-        this.hint = 'No video data was captured. Try recording again after World of Warcraft is visible and focused.';
+        this.status = '录制错误';
+        this.lastError = 'MediaRecorder 未从选中的魔兽世界窗口返回任何视频数据。';
+        this.hint = '未捕获到视频数据。请确保魔兽世界窗口可见且聚焦后重新录制。';
         this.isRecording = false;
         this.setRecordingPowerSave(false);
         this.stopPreview();
@@ -712,9 +712,9 @@ export default {
       this.appendFfmpegLog(`Recorder elapsed time: ${elapsed}s\n`);
       this.recordedBlob = blob;
       this.recordedUrl = URL.createObjectURL(blob);
-      this.status = 'Preview ready';
+      this.status = '预览就绪';
       this.lastError = '';
-      this.hint = 'Review the capture, select a crop if needed, then save the final MP4.';
+      this.hint = '检查捕获内容，如需裁剪请选择裁剪区域，然后保存最终 MP4。';
       this.isRecording = false;
       this.setRecordingPowerSave(false);
       this.stopPreview();
@@ -725,17 +725,17 @@ export default {
       const profile = EXPORT_PROFILES['mp4-master'];
       const defaultPath = `duskhaven-cinematic-${Date.now()}.${profile.extension}`;
       const outputPath = dialog.showSaveDialogSync({
-        title: 'Save Duskhaven Cinematic',
+        title: '保存 Duskhaven 运镜',
         defaultPath,
         filters: profile.filters,
       });
       if (!outputPath) return;
 
       this.outputPath = outputPath;
-      this.status = 'Transcoding';
+      this.status = '转码中';
       this.ffmpegLog = '';
       this.lastError = '';
-      this.hint = 'Encoding the final MP4 and applying the export crop.';
+      this.hint = '正在编码最终 MP4 并应用导出裁剪。';
 
       const transcode = blobToBuffer(this.recordedBlob).then((buffer) => {
         this.appendFfmpegLog(`Input capture size: ${Math.round(buffer.length / 1024 / 1024 * 10) / 10} MB\n`);
@@ -743,14 +743,14 @@ export default {
       });
 
       transcode.then(() => {
-        this.status = 'Saved';
-        this.hint = `Saved to ${this.outputPath}`;
+        this.status = '已保存';
+        this.hint = `已保存到 ${this.outputPath}`;
         this.isRecording = false;
         this.stopPreview();
       }).catch((error) => {
-        this.status = 'Save error';
+        this.status = '保存错误';
         this.lastError = this.getReadableExportError(error);
-        this.hint = 'MP4 save failed. The detailed ffmpeg error is shown below.';
+        this.hint = 'MP4 保存失败。详细的 FFmpeg 错误信息如下。';
         this.isRecording = false;
         this.stopPreview();
       });
@@ -807,14 +807,14 @@ export default {
         .concat(['-c:v', 'libx264', '-preset', 'medium', '-crf', '10', '-pix_fmt', 'yuv420p', '-fps_mode', 'cfr', '-bf', '0', '-g', String(EXPORT_FRAME_RATE), '-keyint_min', String(EXPORT_FRAME_RATE), '-movflags', '+faststart', '-an', '-f', 'mp4', outputTempPath]);
 
       const runExport = () => {
-        this.appendFfmpegLog('\nAnalyzing capture frame cadence...\n');
+        this.appendFfmpegLog('\n分析捕获帧率节奏...\n');
         return runFfmpegOptional(cadenceArgs, logFfmpeg).then((cadenceResult) => {
           this.appendCaptureCadenceSummary(cadenceResult);
-          this.appendFfmpegLog('\nChecking for duplicate/still frames...\n');
+          this.appendFfmpegLog('\n检查重复/静止帧...\n');
           return runFfmpegOptional(duplicateArgs, logFfmpeg);
         }).then((duplicateResult) => {
           this.appendDuplicateFrameSummary(duplicateResult);
-          this.appendFfmpegLog('\nRunning primary MP4 encode...\n');
+          this.appendFfmpegLog('\n执行主 MP4 编码...\n');
           return runFfmpeg(primaryArgs, logFfmpeg).catch((primaryError) => {
             if (fs.existsSync(outputTempPath)) {
               try {
@@ -823,7 +823,7 @@ export default {
                 // Keep the original ffmpeg error visible to the user.
               }
             }
-            this.appendFfmpegLog('\nPrimary encode failed. Running fallback MP4 encode...\n');
+            this.appendFfmpegLog('\n主编码失败。执行备用 MP4 编码...\n');
             return runFfmpeg(fallbackArgs, logFfmpeg).catch((fallbackError) => {
               fallbackError.message = `${fallbackError.message}\n\nPrimary encode also failed:\n${primaryError.message}`;
               throw fallbackError;
@@ -835,11 +835,11 @@ export default {
       return runExport().then(() => {
         const stats = fs.existsSync(outputTempPath) ? fs.statSync(outputTempPath) : null;
         if (!stats || stats.size <= 0) {
-          throw new Error('MP4 export finished without video data.');
+          throw new Error('MP4 导出完成但没有视频数据。');
         }
         if (fs.existsSync(outputPath)) fs.unlinkSync(outputPath);
         fs.renameSync(outputTempPath, outputPath);
-        this.appendFfmpegLog(`\nSaved MP4: ${outputPath}\n`);
+        this.appendFfmpegLog(`\n已保存 MP4: ${outputPath}\n`);
       }).then(() => {
         if (fs.existsSync(inputTempPath)) fs.unlinkSync(inputTempPath);
       }).catch((error) => {
@@ -867,9 +867,9 @@ export default {
       if (!progress || !progress.seconds) return;
 
       const averageFps = progress.frames / progress.seconds;
-      this.appendFfmpegLog(`\nCapture summary: ${progress.frames} frames over ${progress.seconds.toFixed(2)}s (${averageFps.toFixed(1)} fps average).\n`);
+      this.appendFfmpegLog(`\n捕获摘要: ${progress.frames} 帧，${progress.seconds.toFixed(2)}秒 (平均 ${averageFps.toFixed(1)} fps)。\n`);
       if (vfr) {
-        this.appendFfmpegLog(`Frame pacing: avg ${vfr.avgMs}ms, min ${vfr.minMs}ms, max ${vfr.maxMs}ms. Lower max is smoother; 16-17ms is true 60fps pacing.\n`);
+        this.appendFfmpegLog(`帧间隔: 平均 ${vfr.avgMs}ms, 最小 ${vfr.minMs}ms, 最大 ${vfr.maxMs}ms。最大间隔越小越流畅；16-17ms 为真正的 60fps 帧率。\n`);
       }
     },
     appendDuplicateFrameSummary(result) {
@@ -878,7 +878,7 @@ export default {
       if (!progress || !progress.seconds) return;
 
       const uniqueFps = progress.frames / progress.seconds;
-      this.appendFfmpegLog(`Unique-frame check: ${progress.frames} frames survived duplicate detection (${uniqueFps.toFixed(1)} fps effective motion).\n`);
+      this.appendFfmpegLog(`唯一帧检测: ${progress.frames} 帧通过重复检测 (有效运动 ${uniqueFps.toFixed(1)} fps)。\n`);
     },
     onPreviewMetadata() {
       this.refreshPreviewState();
@@ -917,11 +917,11 @@ export default {
       if (!this.hasRecording) return;
       this.onPreviewMetadata();
       this.isCropping = true;
-      this.hint = 'Adjust the crop box on the preview, then confirm it before saving.';
+      this.hint = '在预览上调整裁剪框，然后确认后再保存。';
     },
     confirmCrop() {
       this.isCropping = false;
-      this.hint = `Crop confirmed: ${this.getCropSummary()}. Save MP4 when the preview looks right.`;
+      this.hint = `裁剪已确认: ${this.getCropSummary()}。预览满意后保存 MP4。`;
       this.$nextTick(this.onPreviewMetadata);
     },
     togglePreviewPlaybackFromShell(event) {
@@ -1084,7 +1084,7 @@ export default {
         top: WINDOW_TITLE_CROP_TOP,
       };
       this.isCropping = false;
-      this.hint = 'Crop reset. Select Crop if you want to draw a custom export frame.';
+      this.hint = '裁剪已重置。如需自定义导出画面，请选择裁剪区域。';
     },
     useWindowClientCrop() {
       if (!this.recordingBounds) return;
@@ -1100,7 +1100,7 @@ export default {
         : 0;
 
       this.crop = { bottom, left, right, top };
-      this.hint = 'Crop set to the detected World of Warcraft game area.';
+      this.hint = '裁剪已设置为检测到的魔兽世界游戏区域。';
     },
     clearRecording() {
       if (this.recordedUrl) URL.revokeObjectURL(this.recordedUrl);

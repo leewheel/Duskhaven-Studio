@@ -11,7 +11,7 @@
     <div class="columns">
       <div class="column is-one-fifth">
         <div class="field">
-          <label class="label is-normal">Camera position (x)</label>
+          <label class="label is-normal">镜头位置 (X)</label>
           <p class="control">
             <input 
               type="number"
@@ -24,7 +24,7 @@
           </p>
         </div>
         <div class="field">
-          <label class="label is-normal">Camera position (y)</label>
+          <label class="label is-normal">镜头位置 (Y)</label>
           <p class="control">
             <input
               type="number"
@@ -37,7 +37,7 @@
           </p>
         </div>
         <div class="field">
-          <label class="label is-normal">Camera position (z)</label>
+          <label class="label is-normal">镜头位置 (Z)</label>
           <p class="control">
             <input
               type="number"
@@ -52,7 +52,7 @@
       </div>
       <div class="column is-one-fifth">
         <div class="field">
-          <label class="label is-normal">Yaw (Radians)</label>
+          <label class="label is-normal">偏航角 (弧度)</label>
           <p class="control">
             <input
               v-model="yaw"
@@ -64,7 +64,7 @@
           </p>
         </div>
         <div class="field">
-          <label class="label is-normal">Pitch</label>
+          <label class="label is-normal">俯仰角</label>
           <p class="control">
             <input
               v-model="pitch"
@@ -76,7 +76,7 @@
           </p>
         </div>
         <div class="field">
-          <label class="label is-normal">Spectate Speed</label>
+          <label class="label is-normal">观察者移动速度</label>
           <p class="control">
             <input
               v-model="speed"
@@ -94,7 +94,7 @@
         </div>
       </div>
       <div class="column">
-        <label class="label is-normal">Spectate options</label>
+        <label class="label is-normal">观察者选项</label>
         <label class="checkbox checkbox-custom">
           <input
             type="checkbox"
@@ -106,7 +106,7 @@
             v-on:click="toggleSpectate"
           />
           <label for="renderer_details">
-            <span></span>Toggle Spectate Mode ({{ keybindLabels.toggleSpectate }})
+            <span></span>切换观察者模式 ({{ keybindLabels.toggleSpectate }})
           </label>
           <div class="checkbox_indicator no-drop"></div>
         </label>
@@ -120,7 +120,7 @@
             :checked="this.$store.state.camera.collision"
           />
           <label for="renderer_details">
-            <span></span>Collision enabled
+            <span></span>启用碰撞检测
           </label>
           <div class="checkbox_indicator no-drop"></div>
         </label>
@@ -129,7 +129,7 @@
             type="checkbox" disabled id="toggle_look_at_target" name="toggle_look_at_target"
           />
           <label for="renderer_details">
-            <span></span>Look at selected unit
+            <span></span>注视选中单位
           </label>
           <div class="checkbox_indicator no-drop"></div>
         </label>
@@ -138,7 +138,7 @@
             type="checkbox" disabled id="toggle_follow_target" name="toggle_follow_target"
           />
           <label for="renderer_details">
-            <span></span>Follow target
+            <span></span>跟随目标
           </label>
           <div class="checkbox_indicator no-drop"></div>
         </label>

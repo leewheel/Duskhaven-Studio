@@ -11,20 +11,20 @@
               <div class="tile is-ancestor">
                   <div class="tile is-parent">
                       <article class="tile is-child box">
-                          <p class="title">Toggle Spectate Mode</p>
-                          <p class="subtitle">Press {{ keybindLabels.toggleSpectate }} and you'll be able to move the camera around.</p>
+                          <p class="title">切换观察者模式</p>
+                          <p class="subtitle">按下 {{ keybindLabels.toggleSpectate }} 即可自由移动镜头。</p>
                       </article>
                   </div>
                   <div class="tile is-parent">
                       <article class="tile is-child box">
-                          <p class="title">Add Waypoints</p>
-                          <p class="subtitle">Press {{ keybindLabels.addWaypoint }} to add the current camera position to the cinematic builder</p>
+                          <p class="title">添加路径点</p>
+                          <p class="subtitle">按下 {{ keybindLabels.addWaypoint }} 将当前镜头位置添加到运镜编辑器中</p>
                       </article>
                   </div>
                   <div class="tile is-parent">
                       <article class="tile is-child box">
-                          <p class="title">Play it!</p>
-                          <p class="subtitle">Press {{ keybindLabels.playCinematic }} to play the whole cinematic.</p>
+                          <p class="title">播放运镜！</p>
+                          <p class="subtitle">按下 {{ keybindLabels.playCinematic }} 播放完整运镜。</p>
                       </article>
                   </div>
               </div>
@@ -33,22 +33,22 @@
             <div class="columns">
               <div class="column is-one-quarter">
                 <div class="field">
-                  <label class="label">Cinematic duration in seconds</label>
-                  <p class="help">This sets how much the cinematic will last.</p>
+                  <label class="label">运镜时长 (秒)</label>
+                  <p class="help">设置运镜的总持续时间。</p>
                   <div class="control">
                     <input 
                       class="input" 
                       type="number" 
                       ref="cinematic_speed"
                       v-model="cinematicSpeed"
-                      placeholder="Value in seconds, defaults to 10.">
+                      placeholder="以秒为单位，默认为 10 秒。">
                   </div>
                 </div>
               </div>
               <div class="column is-one-quarter easing-select">
                 <div class="field">
-                  <label class="label">Easing</label>
-                  <p class="help easing">Open <a v-on:click="open('https://greensock.com/docs/v2/Easing')">Ease Visualizer</a></p>
+                  <label class="label">缓动</label>
+                  <p class="help easing">打开 <a v-on:click="open('https://greensock.com/docs/v2/Easing')">缓动可视化器</a></p>
                   <div class="control">
                     <div class="select">
                       <select
@@ -92,7 +92,7 @@
               </div>
               <div class="column">
                 <label class="checkbox checkbox-custom">
-                  Play in infinite loop
+                  无限循环播放
                   <input
                     type="checkbox"
                     id="loop_cinematic"
@@ -114,7 +114,7 @@
                       <th><abbr title="Yaw">yaw</abbr></th>
                       <th><abbr title="Pitch">pitch</abbr></th>
                       <th><abbr title="Roll">roll</abbr></th>
-                      <th v-if="this.$store.state.environment.isTimeOfDayEnabled"><abbr title="Time of day">Time of day</abbr></th>
+                      <th v-if="this.$store.state.environment.isTimeOfDayEnabled"><abbr title="时间">时间</abbr></th>
                     </tr>
                   </thead>
                   <tbody>

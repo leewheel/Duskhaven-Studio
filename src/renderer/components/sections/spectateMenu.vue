@@ -10,7 +10,7 @@
           <span class="icon is-small">
             <i data-feather="video"></i>
           </span>
-          <span>Settings</span>
+          <span>设置</span>
         </router-link>
       </li>
       <li>
@@ -22,7 +22,7 @@
           <span class="icon is-small">
             <i data-feather="film"></i>
           </span>
-          <span>Cinematic builder</span>
+          <span>运镜编辑器</span>
         </router-link>
       </li>
       <li>
@@ -34,18 +34,18 @@
           <span class="icon is-small">
             <i data-feather="download"></i>
           </span>
-          <span>Export</span>
+          <span>导出</span>
         </router-link>
       </li>
     </ul>
     <div class="cinematic_menu" v-if="this.$route.path === '/spectate/cinematicBuilder'">
       <div v-on:click="loadCinematic">
         <i data-feather="file"></i>
-        <span>Load</span>
+        <span>加载</span>
       </div>
       <div v-on:click="saveCinematic">
         <i data-feather="save"></i>
-        <span>Save</span>
+        <span>保存</span>
       </div>
     </div>
   </div>
@@ -91,7 +91,7 @@ export default {
       const cinematicPath = dialog.showSaveDialogSync({ 
         properties: ['openFile'], 
         filters,
-        title: "Save Duskhaven Studio Cinematic",
+        title: "保存 Duskhaven Studio 运镜",
         defaultPath,
       });
       const cinematicSteps = this.$store.getters.steps;

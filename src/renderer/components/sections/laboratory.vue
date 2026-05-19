@@ -6,8 +6,8 @@
     <section class="hero">
       <div class="hero-body">
         <div class="container">
-          <h1 class="title">laboratory control.</h1>
-          <h2 class="subtitle">Nothing implemented yet.</h2>
+          <h1 class="title">实验室控制</h1>
+          <h2 class="subtitle">尚未实现任何功能。</h2>
         </div>
       </div>
     </section>
@@ -16,13 +16,13 @@
       <div class="modal-content">
         <article class="message">
           <div class="message-header">
-            <p>About this tool</p>
+            <p>关于此工具</p>
           </div>
           <div class="message-body">
-            Duskhaven Studio is a workbench for exploration, scene direction, and cinematic experimentation.
+            Duskhaven Studio 是一个用于探索、场景导演和运镜实验的工作台。
             <br />
             <i>
-              Built for Duskhaven creators who want cleaner tools, tighter shots, and more control over the world they are filming.
+              专为追求更干净的工具、更紧凑的镜头和更多拍摄控制权的 Duskhaven 创作者而打造。
             </i>
             <br>
           </div>
@@ -53,7 +53,7 @@ function secret(e) {
 
 function SecretFound() {
   document.querySelector('.modal').classList.add('is-active');
-  alert("Duskhaven Studio laboratory unlocked.");
+  alert("Duskhaven Studio 实验室已解锁。");
 }
 
 export default {

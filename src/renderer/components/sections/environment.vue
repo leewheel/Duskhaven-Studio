@@ -6,10 +6,10 @@
           <div>
             <label class="label is-normal">
               <div class="render_flags">
-                <div class="render_flags_title">Render flags</div>
+                <div class="render_flags_title">渲染标志</div>
                 <div v-tooltip="`${renderflagsHelp}`"><i data-feather="help-circle"></i></div>
               </div>
-              <div class="render_flags_subtitle">hex 0 to 0xFF</div>
+              <div class="render_flags_subtitle">十六进制 0 至 0xFF</div>
             </label>
             <div class="byteSelectors">
               <ByteSelector @upRenderFlags="upRenderFlags" @downRenderFlags="downRenderFlags" v-bind:byte="renderflags[0]" index=0 />
@@ -19,17 +19,17 @@
             </div>
           </div>
           <div class="buttons">
-            <button class="button random" v-on:click="copyRender" v-tooltip="`Copy render flags to clipboard`"><i data-feather="clipboard"></i></button>
-            <button class="button random" v-on:click="setRenderToRandom" v-tooltip="`Set render flags to a random value`"><i data-feather="shuffle"></i></button>
-            <button class="button random" v-on:click="resetRender" v-tooltip="`Reset render flags to default`"><i data-feather="refresh-ccw"></i></button>
+            <button class="button random" v-on:click="copyRender" v-tooltip="`复制渲染标志到剪贴板`"><i data-feather="clipboard"></i></button>
+            <button class="button random" v-on:click="setRenderToRandom" v-tooltip="`设置渲染标志为随机值`"><i data-feather="shuffle"></i></button>
+            <button class="button random" v-on:click="resetRender" v-tooltip="`重置渲染标志为默认值`"><i data-feather="refresh-ccw"></i></button>
           </div>
         </div>
       </div>
       <div class="column is-one-third">
         <div class="field">
-          <label class="label is-normal">Time of day ({{timeOfDay.hour}}:{{timeOfDay.minutes}})</label>
+          <label class="label is-normal">时间 ({{timeOfDay.hour}}:{{timeOfDay.minutes}})</label>
           <label class="checkbox checkbox-custom">
-            Enable time of day
+            启用时间控制
             <input
               type="checkbox"
               :checked="isTimeOfDayEnabled"
@@ -42,12 +42,12 @@
         </div>
         <div v-if="isTimeOfDayEnabled">
           <div class="field">
-            <label class="label is-normal">Time of day (hours)</label>
+            <label class="label is-normal">时间 (小时)</label>
             <p class="control">
               <input
                 :disabled="isTimeOfDayEnabled === false"
                 class="input range"
-                v-tooltip="`Current time: ${timeOfDay.hour}:${timeOfDay.minutes}`"
+                v-tooltip="`当前时间: ${timeOfDay.hour}:${timeOfDay.minutes}`"
                 type="range"
                 v-on:change="setTimeOfDay($event, 'hour')"
                 v-on:input="setTimeOfDay($event, 'hour')"
@@ -60,12 +60,12 @@
             </p>
           </div>
           <div class="field">
-            <label class="label is-normal">Time of day (minutes)</label>
+            <label class="label is-normal">时间 (分钟)</label>
             <p class="control">
               <input
                 :disabled="isTimeOfDayEnabled === false"
                 class="input range"
-                v-tooltip="`Current time: ${timeOfDay.hour}:${timeOfDay.minutes}`"
+                v-tooltip="`当前时间: ${timeOfDay.hour}:${timeOfDay.minutes}`"
                 type="range"
                 v-on:change="setTimeOfDay($event, 'minutes')"
                 v-on:input="setTimeOfDay($event, 'minutes')"
@@ -183,7 +183,7 @@ export default {
       timeOfDay: this.$store.state.environment.timeOfDay,
       isTimeOfDayEnabled: this.$store.state.environment.isTimeOfDayEnabled,
       renderflags: [0, 0, 0, 0],
-      renderflagsHelp: 'Render flags control how WoW is rendered.<br/>Changing these values may break your client, specially from WoW Alpha to WoW 3.x'
+      renderflagsHelp: '渲染标志控制魔兽世界的渲染方式。<br/>修改这些值可能会导致客户端异常，特别是从魔兽 Alpha 版到 3.x 版本之间。'
     };
   }
 };

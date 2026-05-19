@@ -4,32 +4,32 @@
       <div class="hero-content">
         <div class="hero-copy">
           <h1>Duskhaven Studio</h1>
-          <p>A camera tool for in-game cinematic work.</p>
+          <p>一款用于游戏内运镜创作的工具。</p>
         </div>
       </div>
       <div class="hero-actions">
-        <router-link to="/spectate" class="button primary-action">Open Spectate</router-link>
-        <router-link to="/environment" class="button">Tune Environment</router-link>
+        <router-link to="/spectate" class="button primary-action">打开观察者</router-link>
+        <router-link to="/environment" class="button">调整环境</router-link>
       </div>
     </div>
 
     <div class="content-grid">
       <div class="tool-card">
         <span class="icon-wrap"><i data-feather="video"></i></span>
-        <h2>Spectate Camera</h2>
-        <p>Frame routes, capture waypoints, and move through scenes with cinematic camera controls.</p>
+        <h2>观察者镜头</h2>
+        <p>规划路线、捕捉路径点，并通过电影级镜头控制在场景中自由移动。</p>
       </div>
 
       <div class="tool-card">
         <span class="icon-wrap"><i data-feather="image"></i></span>
-        <h2>Environment Pass</h2>
-        <p>Adjust time of day, render flags, and scene visibility while composing a shot.</p>
+        <h2>环境控制</h2>
+        <p>在构图时调整时间、渲染标志和场景可见性。</p>
       </div>
 
       <div class="tool-card">
         <span class="icon-wrap"><i data-feather="sliders"></i></span>
-        <h2>Studio Settings</h2>
-        <p>Adjust the available studio preferences and keybinds in one place.</p>
+        <h2>工作室设置</h2>
+        <p>在一个地方集中调整所有工作室偏好和快捷键。</p>
       </div>
     </div>
   </section>

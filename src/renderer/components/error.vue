@@ -3,17 +3,17 @@
     <div class="wrapper">
       <div class="fatal-description">
         <img src="../assets/mpq.png" class="error-img" alt="Duskhaven Studio">
-        <h1 style="-webkit-app-region: drag;">A fatal error has ocurred</h1>
-        <h2>Error description:</h2>
-        <p class="description">{{error ? error : 'No error found :('}}</p>
-        <p>If you don't know how to fix it, please open an issue here: 
+        <h1 style="-webkit-app-region: drag;">发生了致命错误</h1>
+        <h2>错误描述：</h2>
+        <p class="description">{{error ? error : '未找到错误信息 :('}}</p>
+        <p>如果你不知道如何解决，请在以下地址提交 Issue： 
           <a 
             v-on:click="open('')"
           >Duskhaven Studio</a>
         </p>
         <div class="actions">
-          <button class="err-button" v-on:click="reload()">Reload</button>
-          <button class="err-button" v-on:click="exit()">Close Duskhaven Studio</button>
+          <button class="err-button" v-on:click="reload()">重新加载</button>
+          <button class="err-button" v-on:click="exit()">关闭 Duskhaven Studio</button>
         </div>
       </div>
     </div>

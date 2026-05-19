@@ -5,19 +5,19 @@
             <span class="icon" style="color: #20801d;">
               <i class="fas fa-circle"></i>
             </span>
-            <div>[{{ keybindLabels.addWaypoint }}] Add wp - [{{ keybindLabels.playCinematic }}] Play - [{{ keybindLabels.clearWaypoints }}] Clear wps</div>
+            <div>[{{ keybindLabels.addWaypoint }}] 添加路径点 - [{{ keybindLabels.playCinematic }}] 播放 - [{{ keybindLabels.clearWaypoints }}] 清除路径点</div>
           </div>
           <div v-if="this.$store.state.camera.mode === 'DISABLED'" class="spectate-status">
             <span class="icon" style="color: #626b82;">
               <i class="fas fa-circle"></i>
             </span>
-            <div>[{{ keybindLabels.toggleSpectate }}] Toggle Spectate</div>
+            <div>[{{ keybindLabels.toggleSpectate }}] 切换观察者模式</div>
           </div>
           <div v-if="this.$store.state.camera.mode === 'PLAYING'" class="spectate-status">
             <span class="icon" style="color: #c10808;">
               <i class="fas fa-circle"></i>
             </span>
-            <div>[{{ keybindLabels.playCinematic }}] Stop cinematic</div>
+            <div>[{{ keybindLabels.playCinematic }}] 停止运镜</div>
           </div>
       </div>
       <div class="topbar-app-control" style="-webkit-app-region: no-drag;">

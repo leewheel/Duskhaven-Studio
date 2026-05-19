@@ -3,7 +3,7 @@
     <li>
       <router-link to="/settings" class="nav-item is-tab" v-bind:class="{ 'is-active': settingsActivated }">
         <span class="icon is-small"><i class="fa fa-video"></i></span>
-        <span>Settings</span>
+        <span>设置</span>
       </router-link>
     </li>
   </ul>
